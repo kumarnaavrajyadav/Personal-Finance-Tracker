@@ -5,7 +5,7 @@
 
 class FinanceFlow {
     constructor() {
-        this.apiBaseUrl = 'http://localhost:5001';
+        this.apiBaseUrl = window.location.origin;
         this.currentUser = JSON.parse(localStorage.getItem('user')) || null;
         this.token = localStorage.getItem('token') || null;
         this.currentView = 'dashboard';
