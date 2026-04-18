@@ -10,7 +10,13 @@ const db = require("./db");
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "./")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// Serve index.html for the root route
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
 
 const SECRET = "secretkey"; 
 
