@@ -26,6 +26,19 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
       )
     `);
 
+    // Ensure google_id column exists if table was already created
+    await db.query(`
+      DO $$
+      BEGIN
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='users' AND column_name='google_id') THEN
+          ALTER TABLE users ADD COLUMN google_id VARCHAR(255);
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='users' AND column_name='profile_picture') THEN
+          ALTER TABLE users ADD COLUMN profile_picture TEXT;
+        END IF;
+      END $$;
+    `);
+
     await db.query(`
       CREATE TABLE IF NOT EXISTS transactions (
         id SERIAL PRIMARY KEY,
