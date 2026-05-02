@@ -63,6 +63,7 @@ class FinanceFlow {
     init() {
         this.attachEventListeners();
         this.checkAuth();
+        this.initAuthEffects();
         
         document.querySelectorAll('.open-transaction-modal').forEach(btn => {
             btn.addEventListener('click', () => this.toggleModal('transactionModal', true));
@@ -227,16 +228,136 @@ class FinanceFlow {
         this.dom.loginForm.classList.toggle('hidden', mode === 'signup');
         this.dom.signupForm.classList.toggle('hidden', mode === 'login');
         
-        const title = document.getElementById('authTitle');
         const subtitle = document.getElementById('authSubtitle');
         
         if (mode === 'signup') {
-            title.textContent = 'Create Identity';
-            subtitle.textContent = 'Establish your financial core';
+            this.typewriterEffect('authTitle', 'ESTABLISH NEW IDENTITY');
+            subtitle.innerHTML = '<span class="bracket">[</span> Identity Registration Protocol <span class="bracket">]</span>';
         } else {
-            title.textContent = 'Welcome Back';
-            subtitle.textContent = 'Access your financial dashboard';
+            this.typewriterEffect('authTitle', 'WELCOME BACK, AGENT');
+            subtitle.innerHTML = '<span class="bracket">[</span> Secure Authentication Protocol <span class="bracket">]</span>';
         }
+    }
+
+    // --- AUTH EFFECTS ---
+
+    initAuthEffects() {
+        // Typewriter for title
+        this.typewriterEffect('authTitle', 'WELCOME BACK, AGENT');
+
+        // Live clock
+        const clockEl = document.getElementById('authClock');
+        if (clockEl) {
+            const updateClock = () => {
+                const now = new Date();
+                clockEl.textContent = now.toLocaleTimeString('en-US', { hour12: false });
+            };
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        // Particle canvas
+        this.initParticles();
+    }
+
+    typewriterEffect(elementId, text) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        el.innerHTML = '<span class="typing-cursor">_</span>';
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < text.length) {
+                el.innerHTML = text.substring(0, i + 1) + '<span class="typing-cursor">_</span>';
+                i++;
+            } else {
+                clearInterval(interval);
+            }
+        }, 50);
+    }
+
+    initParticles() {
+        const canvas = document.getElementById('particleCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null };
+
+        const resize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        resize();
+        window.addEventListener('resize', resize);
+
+        canvas.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(99, 102, 241, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const count = Math.min(80, Math.floor(window.innerWidth / 15));
+        for (let i = 0; i < count; i++) particles.push(new Particle());
+
+        const connectParticles = () => {
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a + 1; b < particles.length; b++) {
+                    const dx = particles[a].x - particles[b].x;
+                    const dy = particles[a].y - particles[b].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 - dist / 800})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+                // Mouse interaction
+                if (mouse.x) {
+                    const dx = particles[a].x - mouse.x;
+                    const dy = particles[a].y - mouse.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        ctx.strokeStyle = `rgba(168, 85, 247, ${0.3 - dist / 500})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        };
+
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            connectParticles();
+            requestAnimationFrame(animate);
+        };
+        animate();
     }
 
     // --- DATA FETCHING ---

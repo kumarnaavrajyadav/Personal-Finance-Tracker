@@ -30,90 +30,174 @@
 <body>
     <!-- 1. Authentication Layer -->
     <div id="authOverlay" class="auth-overlay">
-        <div class="auth-container">
-            <div class="auth-visual">
-                <div class="visual-content">
-                    <img src="assets/login_illustration.png" alt="Futuristic Finance" class="floating-img">
-                    <div class="visual-overlay"></div>
-                    <div class="visual-text">
-                        <h3>Master Your Wealth</h3>
-                        <p>Experience the next generation of personal finance tracking with AI-powered insights and real-time analytics.</p>
+        <!-- Particle Canvas Background -->
+        <canvas id="particleCanvas"></canvas>
+        
+        <!-- Floating Currency Symbols -->
+        <div class="floating-symbols">
+            <span class="float-sym" style="--d:12s; --x:10%; --s:1.5">$</span>
+            <span class="float-sym" style="--d:18s; --x:25%; --s:0.8">€</span>
+            <span class="float-sym" style="--d:15s; --x:40%; --s:1.2">₹</span>
+            <span class="float-sym" style="--d:20s; --x:55%; --s:0.6">¥</span>
+            <span class="float-sym" style="--d:14s; --x:70%; --s:1.0">£</span>
+            <span class="float-sym" style="--d:22s; --x:85%; --s:1.3">₿</span>
+            <span class="float-sym" style="--d:16s; --x:15%; --s:0.9">◈</span>
+            <span class="float-sym" style="--d:19s; --x:60%; --s:0.7">◇</span>
+        </div>
+
+        <!-- Main Auth Card with Animated Border -->
+        <div class="cyber-card-wrapper">
+            <div class="cyber-card">
+                <!-- Scan Line Effect -->
+                <div class="scan-line"></div>
+
+                <!-- Terminal Header -->
+                <div class="terminal-bar">
+                    <div class="terminal-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <span class="terminal-title">FINANCEFLOW_AUTH://SECURE_GATEWAY</span>
+                    <div class="terminal-status">
+                        <span class="status-dot"></span> ENCRYPTED
                     </div>
                 </div>
-            </div>
-            <div class="auth-form-side">
-                <div class="auth-box glass-card">
+
+                <!-- Auth Content -->
+                <div class="cyber-auth-body">
                     <div class="auth-header">
-                        <div class="logo">
-                            <div class="logo-icon"><i class="fas fa-wallet"></i></div>
-                            <span>FinanceFlow</span>
+                        <div class="cyber-logo">
+                            <div class="hex-icon">
+                                <i class="fas fa-wallet"></i>
+                                <div class="hex-ring"></div>
+                            </div>
+                            <div class="logo-text">
+                                <span class="brand">FinanceFlow</span>
+                                <span class="version">v2.0 NEURAL</span>
+                            </div>
                         </div>
-                        <h2 id="authTitle">Welcome Back</h2>
-                        <p id="authSubtitle">Access your financial dashboard</p>
+                        <h2 id="authTitle" class="typewriter-text">
+                            <span class="typing-cursor">_</span>
+                        </h2>
+                        <p id="authSubtitle" class="cyber-subtitle">
+                            <span class="bracket">[</span> Secure Authentication Protocol <span class="bracket">]</span>
+                        </p>
                     </div>
 
                     <!-- Login Form -->
                     <form id="loginForm" class="auth-form">
-                        <div class="form-group">
-                            <label>Email Architecture</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-envelope"></i>
-                                <input type="email" id="loginEmail" placeholder="name@company.com" required>
+                        <div class="cyber-input-group">
+                            <div class="input-label-row">
+                                <i class="fas fa-at"></i>
+                                <label>EMAIL_ADDR</label>
+                            </div>
+                            <div class="cyber-input-wrapper">
+                                <input type="email" id="loginEmail" placeholder="user@domain.com" required autocomplete="email">
+                                <div class="input-glow"></div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>Security Key</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" id="loginPassword" placeholder="••••••••" required>
+
+                        <div class="cyber-input-group">
+                            <div class="input-label-row">
+                                <i class="fas fa-fingerprint"></i>
+                                <label>PASS_KEY</label>
+                            </div>
+                            <div class="cyber-input-wrapper">
+                                <input type="password" id="loginPassword" placeholder="••••••••••" required autocomplete="current-password">
+                                <div class="input-glow"></div>
                             </div>
                         </div>
+
                         <div class="auth-actions">
                             <label class="remember-me">
-                                <input type="checkbox"> <span>Keep me logged in</span>
+                                <input type="checkbox">
+                                <span class="custom-check"></span>
+                                <span>PERSIST_SESSION</span>
                             </label>
-                            <a href="#" class="forgot-link">Recover Key?</a>
+                            <a href="#" class="forgot-link">> RECOVER_KEY</a>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-full glitch-btn">Initialize Session</button>
-                        
-                        <div class="social-auth">
-                            <span class="divider">Or continue with</span>
-                            <div class="social-icons">
-                                <button type="button" class="social-btn"><i class="fab fa-google"></i></button>
-                                <button type="button" class="social-btn"><i class="fab fa-apple"></i></button>
-                                <button type="button" class="social-btn"><i class="fab fa-github"></i></button>
-                            </div>
+
+                        <button type="submit" class="cyber-btn-primary">
+                            <span class="btn-text">INITIALIZE SESSION</span>
+                            <span class="btn-loader"></span>
+                            <div class="btn-glitch"></div>
+                        </button>
+
+                        <div class="auth-divider">
+                            <div class="divider-line"></div>
+                            <span class="divider-text">ALT_AUTH</span>
+                            <div class="divider-line"></div>
                         </div>
-                        
-                        <p class="auth-footer">New to the grid? <a href="#" id="toSignup">Create Identity</a></p>
+
+                        <div class="social-grid">
+                            <button type="button" class="social-chip">
+                                <i class="fab fa-google"></i>
+                                <span>Google</span>
+                            </button>
+                            <button type="button" class="social-chip">
+                                <i class="fab fa-github"></i>
+                                <span>GitHub</span>
+                            </button>
+                        </div>
+
+                        <p class="auth-footer">
+                            <span class="terminal-prompt">></span> NEW_USER? <a href="#" id="toSignup">CREATE_IDENTITY</a>
+                        </p>
                     </form>
 
                     <!-- Signup Form (Hidden by default) -->
                     <form id="signupForm" class="auth-form hidden">
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-user"></i>
-                                <input type="text" id="signupName" placeholder="John Doe" required>
+                        <div class="cyber-input-group">
+                            <div class="input-label-row">
+                                <i class="fas fa-id-card"></i>
+                                <label>FULL_NAME</label>
+                            </div>
+                            <div class="cyber-input-wrapper">
+                                <input type="text" id="signupName" placeholder="Your full name" required>
+                                <div class="input-glow"></div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-envelope"></i>
-                                <input type="email" id="signupEmail" placeholder="name@company.com" required>
+
+                        <div class="cyber-input-group">
+                            <div class="input-label-row">
+                                <i class="fas fa-at"></i>
+                                <label>EMAIL_ADDR</label>
+                            </div>
+                            <div class="cyber-input-wrapper">
+                                <input type="email" id="signupEmail" placeholder="user@domain.com" required>
+                                <div class="input-glow"></div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>Establish Password</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" id="signupPassword" placeholder="••••••••" required>
+
+                        <div class="cyber-input-group">
+                            <div class="input-label-row">
+                                <i class="fas fa-shield-halved"></i>
+                                <label>PASS_KEY</label>
+                            </div>
+                            <div class="cyber-input-wrapper">
+                                <input type="password" id="signupPassword" placeholder="••••••••••" required>
+                                <div class="input-glow"></div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-full glitch-btn">Establish Identity</button>
-                        <p class="auth-footer">Already recognized? <a href="#" id="toLogin">Verify Identity</a></p>
+
+                        <button type="submit" class="cyber-btn-primary">
+                            <span class="btn-text">ESTABLISH IDENTITY</span>
+                            <span class="btn-loader"></span>
+                            <div class="btn-glitch"></div>
+                        </button>
+
+                        <p class="auth-footer">
+                            <span class="terminal-prompt">></span> EXISTING_USER? <a href="#" id="toLogin">VERIFY_IDENTITY</a>
+                        </p>
                     </form>
+                </div>
+
+                <!-- Footer Status Bar -->
+                <div class="cyber-footer-bar">
+                    <span><i class="fas fa-shield-halved"></i> AES-256 ENCRYPTED</span>
+                    <span><i class="fas fa-server"></i> NODE: RENDER_CLOUD</span>
+                    <span><i class="fas fa-clock"></i> <span id="authClock">00:00:00</span></span>
                 </div>
             </div>
         </div>
