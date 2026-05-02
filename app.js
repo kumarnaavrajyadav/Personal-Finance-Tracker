@@ -245,9 +245,20 @@ class FinanceFlow {
     }
 
     updateAvatars(path) {
-        const url = path ? `${this.apiBaseUrl}${path}` : `https://ui-avatars.com/api/?name=${this.currentUser.username}&background=6366f1&color=fff`;
-        this.dom.userAvatar.src = url;
-        this.dom.settingsAvatar.src = url;
+        const fallback = `https://ui-avatars.com/api/?name=${this.currentUser?.username || 'User'}&background=6366f1&color=fff`;
+        const url = path ? `${this.apiBaseUrl}${path}` : fallback;
+        
+        const setSrc = (el, src) => {
+            if (!el) return;
+            el.src = src;
+            el.onerror = () => {
+                el.src = fallback;
+                el.onerror = null; // Prevent infinite loop if fallback fails
+            };
+        };
+
+        setSrc(this.dom.userAvatar, url);
+        setSrc(this.dom.settingsAvatar, url);
     }
 
     toggleAuthMode(mode) {
