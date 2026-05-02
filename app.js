@@ -721,6 +721,7 @@ class FinanceFlow {
 
         body.innerHTML = filtered.map(t => `
             <tr>
+                <td><input type="checkbox" class="transaction-checkbox" data-id="${t.id}"></td>
                 <td>${new Date(t.date).toLocaleDateString()}</td>
                 <td><div class="t-row-category"><i class="fas ${this.getCategoryIcon(t.category)}"></i> <span>${t.category}</span></div></td>
                 <td>${t.description}</td>
@@ -734,6 +735,75 @@ class FinanceFlow {
                 </td>
             </tr>
         `).join('');
+
+        this.attachBulkDeleteListeners();
+    }
+
+    attachBulkDeleteListeners() {
+        const selectAll = document.getElementById('selectAllTransactions');
+        const checkboxes = document.querySelectorAll('.transaction-checkbox');
+        const bulkBtn = document.getElementById('bulkDeleteBtn');
+
+        if (selectAll) {
+            selectAll.onchange = () => {
+                checkboxes.forEach(cb => cb.checked = selectAll.checked);
+                this.toggleBulkDeleteButton();
+            };
+        }
+
+        checkboxes.forEach(cb => {
+            cb.onchange = () => {
+                this.toggleBulkDeleteButton();
+                if (!cb.checked && selectAll) selectAll.checked = false;
+            };
+        });
+
+        if (bulkBtn) {
+            bulkBtn.onclick = () => this.handleBulkDelete();
+        }
+    }
+
+    toggleBulkDeleteButton() {
+        const selected = document.querySelectorAll('.transaction-checkbox:checked');
+        const bulkBtn = document.getElementById('bulkDeleteBtn');
+        if (bulkBtn) {
+            if (selected.length > 0) {
+                bulkBtn.classList.remove('hidden');
+                bulkBtn.style.display = 'flex';
+            } else {
+                bulkBtn.classList.add('hidden');
+                bulkBtn.style.display = 'none';
+            }
+        }
+    }
+
+    async handleBulkDelete() {
+        const selected = document.querySelectorAll('.transaction-checkbox:checked');
+        const ids = Array.from(selected).map(cb => cb.getAttribute('data-id'));
+        
+        if (ids.length === 0) return;
+
+        const confirmed = await this.showConfirm('Bulk Delete', `Are you sure you want to delete ${ids.length} selected transactions?`);
+        if (!confirmed) return;
+
+        try {
+            const res = await fetch(`${this.apiBaseUrl}/transactions/bulk`, {
+                method: 'DELETE',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.token}` 
+                },
+                body: JSON.stringify({ ids })
+            });
+            
+            if (!res.ok) throw new Error('Bulk delete failed');
+            
+            const result = await res.json();
+            this.showNotification(result.message, 'success');
+            this.refreshData();
+        } catch (err) {
+            this.showNotification(err.message, 'error');
+        }
     }
 
     renderBudgetsView() {

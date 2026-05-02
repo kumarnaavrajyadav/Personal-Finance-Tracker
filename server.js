@@ -313,6 +313,25 @@ app.delete("/transaction/:id", auth, (req, res) => {
     if (result.rowCount === 0) return res.status(404).json({ message: "Transaction not found" });
     res.json({ message: "Transaction deleted" });
   });
+});// =========================
+// 🗑️ BULK DELETE TRANSACTIONS
+// =========================
+app.delete("/transactions/bulk", auth, (req, res) => {
+  const { ids } = req.body; // Expecting an array of IDs
+
+  if (!ids || !Array.isArray(ids) || ids.length === 0) {
+    return res.status(400).json({ message: "No IDs provided for bulk delete" });
+  }
+
+  const sql = "DELETE FROM transactions WHERE id = ANY($1) AND user_id = $2";
+
+  db.query(sql, [ids, req.user_id], (err, result) => {
+    if (err) {
+      console.error("❌ Bulk Delete Error:", err.message);
+      return res.status(500).json({ message: "Database error", error: err.message });
+    }
+    res.json({ message: `${result.rowCount} transactions deleted` });
+  });
 });
 
 
