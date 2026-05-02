@@ -317,10 +317,15 @@ class FinanceFlow {
         const clientID = userClientID || defaultID;
         
         if (clientID.includes("YOUR_GOOGLE_CLIENT_ID_HERE")) {
-            // Only warn if they haven't set it yet
-            console.log("%c[Auth] Google Login is pending configuration in Settings.", "color: #94a3b8; font-style: italic;");
             const btn = document.getElementById("googleSignInBtn");
-            if (btn) btn.innerHTML = '<p style="font-size:0.8rem; color:var(--text-dim); border:1px dashed var(--glass-border); padding:10px; border-radius:12px;">Setup Google Auth in Settings to enable</p>';
+            if (btn) {
+                btn.innerHTML = `
+                    <button class="google-login-btn-custom" onclick="alert('Google Login Setup Required: Please go to Settings > Security and paste your Google Client ID to enable this feature.')">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" class="google-icon" alt="Google">
+                        Sign in with Google
+                    </button>
+                `;
+            }
             return;
         }
 
