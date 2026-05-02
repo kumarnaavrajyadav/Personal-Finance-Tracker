@@ -86,44 +86,10 @@
                             <span class="btn-text">Sign In</span>
                         </button>
 
-                        <div class="auth-divider">
-                            <span>OR</span>
-                        </div>
-                        <div id="googleSignInBtn" class="google-login-container"></div>
-
                         <p class="auth-footer">
                             Don't have an account? <a href="#" id="toSignup">Sign up</a>
                         </p>
                     </form>
-
-                    <!-- Google Setup View -->
-                    <div id="googleSetupView" class="auth-form hidden">
-                        <div class="setup-header">
-                            <i class="fab fa-google google-setup-icon"></i>
-                            <h3>Google Login Setup</h3>
-                            <p>Enable one-click access by connecting your Google Client ID.</p>
-                        </div>
-                        
-                        <div class="setup-steps">
-                            <div class="step"><span class="step-num">1</span> Go to <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a></div>
-                            <div class="step"><span class="step-num">2</span> Create a "Web Client ID" in API Credentials</div>
-                            <div class="step"><span class="step-num">3</span> Paste your Client ID below:</div>
-                        </div>
-
-                        <div class="form-group" style="margin-top: 20px;">
-                            <div class="input-wrapper">
-                                <input type="text" id="setupClientId" placeholder="Example: 12345-abcde.apps.googleusercontent.com" style="padding-left: 16px;">
-                            </div>
-                        </div>
-
-                        <button id="saveGoogleIdBtn" class="btn-primary-large">
-                            <span class="btn-text">Enable Google Login</span>
-                        </button>
-
-                        <p class="auth-footer" style="margin-top: 20px; text-align: center;">
-                            <a href="#" id="cancelGoogleSetup" style="color: var(--primary); font-weight: 700; text-decoration: none;">Back to Sign In</a>
-                        </p>
-                    </div>
 
                     <!-- Signup Form -->
                     <form id="signupForm" class="auth-form hidden">
