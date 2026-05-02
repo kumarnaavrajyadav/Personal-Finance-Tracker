@@ -39,6 +39,16 @@
     100% { background-position: 0% 50%; }
 }
 
+@keyframes antigravity {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(0.5deg); }
+}
+
+@keyframes neon-pulse {
+    0%, 100% { box-shadow: 0 0 15px var(--primary); }
+    50% { box-shadow: 0 0 30px var(--primary), 0 0 50px rgba(99, 102, 241, 0.2); }
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -817,11 +827,16 @@ h4,
     display: flex;
     justify-content: space-between;
     transition: var(--transition-base);
+    animation: antigravity 6s ease-in-out infinite;
 }
 
+.stat-card:nth-child(2) { animation-delay: 1s; }
+.stat-card:nth-child(3) { animation-delay: 2s; }
+
 .stat-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px) scale(1.02);
+    border-color: var(--primary-light);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), var(--shadow-glow);
 }
 
 .stat-label {

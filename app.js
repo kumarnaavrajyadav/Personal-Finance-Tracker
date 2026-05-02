@@ -218,6 +218,20 @@ class FinanceFlow {
         this.dom.welcomeName.textContent = this.currentUser.username;
         this.updateAvatars(this.currentUser.profile_picture);
         this.refreshData();
+        this.startLiveSync(); // Start background sync
+    }
+
+    startLiveSync() {
+        if (this.syncInterval) clearInterval(this.syncInterval);
+        this.syncInterval = setInterval(() => {
+            // Only sync if user is logged in and page is visible
+            if (this.token && !document.hidden && this.dom.authOverlay.classList.contains('hidden')) {
+                this.fetchTransactions();
+                this.fetchBudgets();
+                this.updateUI();
+                // We don't re-init charts every time to avoid flicker, just update them if needed
+            }
+        }, 15000); // 15 seconds polling for real-time feel
     }
 
     updateAvatars(path) {
