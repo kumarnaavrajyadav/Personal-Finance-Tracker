@@ -67,7 +67,7 @@
                 <!-- Auth Content -->
                 <div class="cyber-auth-body">
                     <div class="auth-header">
-                        <div class="cyber-logo">
+                        <div class="cyber-logo centered">
                             <img src="assets/logo.png" alt="Logo" class="auth-logo-img">
                             <div class="logo-text">
                                 <span class="brand">FinanceFlow</span>
@@ -129,14 +129,10 @@
                             <div class="divider-line"></div>
                         </div>
 
-                        <div class="social-grid">
-                            <button type="button" class="social-chip">
-                                <i class="fab fa-google"></i>
-                                <span>Google</span>
-                            </button>
-                            <button type="button" class="social-chip">
-                                <i class="fab fa-github"></i>
-                                <span>GitHub</span>
+                        <div class="social-grid single-col">
+                            <button type="button" class="google-login-btn" onclick="window.app.showNotification('Google Authentication is ready to be linked!', 'info')">
+                                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
+                                <span>Continue with Google</span>
                             </button>
                         </div>
 

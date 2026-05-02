@@ -94,12 +94,21 @@ h4,
 .auth-overlay {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+    background: url('assets/auth-bg.png') no-repeat center center/cover;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2000;
     overflow: hidden;
+}
+
+.auth-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.7); /* Dark overlay for readability */
+    backdrop-filter: blur(5px);
+    z-index: -1;
 }
 
 /* Particle Canvas */
@@ -1857,8 +1866,40 @@ input:checked+.switch-slider:before {
         padding: 20px;
     }
 
-    .form-row {
-        flex-direction: column;
-        gap: 0;
-    }
+    .cyber-logo.centered {
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.google-login-btn {
+    width: 100%;
+    padding: 14px;
+    background: #ffffff;
+    border: 1px solid #dadce0;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: var(--transition-base);
+    color: #3c4043;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.google-login-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.google-login-btn:hover {
+    background: #f8f9fa;
+    box-shadow: 0 1px 3px 0 rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15);
+    transform: translateY(-1px);
+}
+
+.social-grid.single-col {
+    grid-template-columns: 1fr;
 }
