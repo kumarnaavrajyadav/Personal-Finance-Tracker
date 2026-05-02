@@ -259,10 +259,14 @@ h4,
 }
 
 .auth-logo-img {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.3));
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--primary);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+    background: #fff;
+    padding: 5px;
 }
 
 .hex-ring {
@@ -669,12 +673,14 @@ h4,
 }
 
 .sidebar-logo-img {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 5px;
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    background: #fff;
+    padding: 3px;
+    box-shadow: var(--shadow-glow);
 }
 
 .logo span {
