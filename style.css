@@ -55,28 +55,28 @@ p { color: var(--text-muted); line-height: 1.6; }
 }
 
 .auth-card {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     border: 1px solid var(--border);
-    width: 100%; max-width: 900px;
-    display: grid; grid-template-columns: 1fr 1fr;
+    width: 100%; max-width: 1000px;
+    display: grid; grid-template-columns: 1.1fr 1fr;
     padding: 0; border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 40px 100px rgba(0,0,0,0.1);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.15);
 }
 
 .auth-illustration {
-    background: #f8fafc url('assets/login_illustration.png') no-repeat center center;
-    background-size: contain;
+    background: #0f172a url('assets/login_illustration.png') no-repeat center center;
+    background-size: cover;
     border-right: 1px solid var(--border);
 }
 
 .auth-body { padding: 60px; text-align: center; }
 
-.auth-logo-img { width: 56px; height: 56px; margin-bottom: 24px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+.auth-logo-img { width: 64px; height: 64px; margin-bottom: 24px; object-fit: contain; }
 
 .auth-title-large { font-size: 2rem; font-weight: 800; color: var(--text-header); margin-bottom: 8px; }
-.auth-subtitle-clean { margin-bottom: 32px; font-size: 0.95rem; color: var(--text-accent); font-weight: 500; }
+.auth-subtitle-clean { margin-bottom: 32px; font-size: 0.95rem; color: var(--text-muted); font-weight: 500; }
 
 .auth-form .form-group { margin-bottom: 20px; text-align: left; }
 .auth-form label { font-size: 0.875rem; font-weight: 600; color: var(--text-header); margin-bottom: 8px; display: block; }
@@ -90,6 +90,13 @@ p { color: var(--text-muted); line-height: 1.6; }
     transition: var(--transition);
 }
 .input-wrapper input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+
+.auth-actions {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px; font-size: 0.85rem;
+}
+.remember-me { display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-header); font-weight: 500; }
+.remember-me input { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
 
 .btn-primary-large {
     width: 100%; padding: 16px;
@@ -153,6 +160,8 @@ p { color: var(--text-muted); line-height: 1.6; }
     width: 20px;
     height: 20px;
 }
+
+.auth-footer { margin-top: 32px; color: var(--text-muted); font-size: 0.9rem; }
 
 /* =============================================
    2. MAIN LAYOUT (SIDEBAR & CONTENT)
