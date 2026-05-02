@@ -24,7 +24,6 @@ class FinanceFlow {
             displayUserName: document.getElementById('displayUserName'),
             welcomeName: document.getElementById('welcomeName'),
             logoutBtn: document.getElementById('logoutBtn'),
-            finalLogoutBtn: document.getElementById('finalLogoutBtn'),
             transactionModal: document.getElementById('transactionModal'),
             transactionForm: document.getElementById('transactionForm'),
             budgetForm: document.getElementById('budgetForm'),
@@ -111,8 +110,9 @@ class FinanceFlow {
 
         // Logout
         const logoutAction = () => this.logout();
-        this.dom.logoutBtn.onclick = logoutAction;
-        this.dom.finalLogoutBtn.onclick = logoutAction;
+        if (this.dom.logoutBtn) this.dom.logoutBtn.onclick = logoutAction;
+        const finalLogout = document.querySelector('.logout-btn-large');
+        if (finalLogout) finalLogout.onclick = logoutAction;
 
         // --- DELEGATED EVENT LISTENER FOR DYNAMIC ACTIONS ---
         document.addEventListener('click', (e) => {
