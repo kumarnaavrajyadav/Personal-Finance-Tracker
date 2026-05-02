@@ -179,23 +179,34 @@ p {
 
 .input-wrapper i {
     position: absolute;
-    left: 16px;
+    left: 18px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--primary);
     font-size: 1.1rem;
+    z-index: 10;
+    pointer-events: none;
 }
 
 .input-wrapper input {
     width: 100%;
-    padding: 16px 16px 16px 48px;
-    background: rgba(255, 255, 255, 0.9);
+    padding: 16px 16px 16px 52px;
+    background: rgba(255, 255, 255, 0.95);
     border: 2px solid #e2e8f0;
     border-radius: 16px;
     font-size: 1rem;
     color: #0f172a;
     font-weight: 500;
     transition: all 0.3s ease;
+}
+
+/* Fix Autofill issues */
+.input-wrapper input:-webkit-autofill,
+.input-wrapper input:-webkit-autofill:hover, 
+.input-wrapper input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 50px #f8fafc inset !important;
+    -webkit-text-fill-color: #0f172a !important;
+    border: 2px solid var(--primary) !important;
 }
 
 .input-wrapper input:focus {
