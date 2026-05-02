@@ -138,9 +138,11 @@
         <button id="mobileMenuBtn" class="mobile-toggle"><i class="fas fa-bars"></i></button>
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
-            <div class="logo">
-                <img src="assets/logo.png" alt="Logo" class="sidebar-logo-img">
-                <span>FinanceFlow</span>
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="assets/logo.png" alt="Logo" class="sidebar-logo-img">
+                    <span>FinanceFlow</span>
+                </div>
             </div>
             <nav id="mainNav">
                 <a href="#" class="nav-item active" data-view="dashboard">
@@ -187,30 +189,42 @@
                     </div>
                 </header>
 
-                <!-- Key Metrics Grid -->
-                <div class="stats-grid">
-                    <div class="stat-card balance floating">
-                        <div class="stat-icon"><i class="fas fa-wallet"></i></div>
-                        <div class="stat-info">
-                            <p>Total Balance</p>
-                            <h2 id="totalBalance">$0.00</h2>
-                            <span class="trend up"><i class="fas fa-arrow-up"></i> +2.5%</span>
-                        </div>
+                <!-- Elite Data Summary (Table Form) -->
+                <div class="table-card glass-card summary-table-container">
+                    <div class="card-header">
+                        <h3><i class="fas fa-list-ul"></i> Executive Summary</h3>
+                        <div class="status-indicator live">Live Updates</div>
                     </div>
-                    <div class="stat-card income">
-                        <div class="stat-icon"><i class="fas fa-arrow-down"></i></div>
-                        <div class="stat-info">
-                            <p>Total Income</p>
-                            <h2 id="totalIncome">$0.00</h2>
-                        </div>
-                    </div>
-                    <div class="stat-card expense">
-                        <div class="stat-icon"><i class="fas fa-arrow-up"></i></div>
-                        <div class="stat-info">
-                            <p>Total Expenses</p>
-                            <h2 id="totalExpense">$0.00</h2>
-                        </div>
-                    </div>
+                    <table class="summary-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Metric</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><i class="fas fa-wallet text-primary"></i> Wallet</td>
+                                <td>Total Balance</td>
+                                <td id="totalBalance" class="font-bold">$0.00</td>
+                                <td><span class="trend-pill up"><i class="fas fa-caret-up"></i> Stable</span></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-arrow-down text-success"></i> Inflow</td>
+                                <td>Monthly Income</td>
+                                <td id="totalIncome" class="text-success font-bold">$0.00</td>
+                                <td><span class="trend-pill neutral">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-arrow-up text-danger"></i> Outflow</td>
+                                <td>Monthly Expenses</td>
+                                <td id="totalExpense" class="text-danger font-bold">$0.00</td>
+                                <td><span class="trend-pill warning">Review Needed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- Charts Section -->
