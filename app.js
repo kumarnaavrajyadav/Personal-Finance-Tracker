@@ -244,21 +244,23 @@ class FinanceFlow {
         }, 15000); // 15 seconds polling for real-time feel
     }
 
-    updateAvatars(path) {
+    async updateAvatars(path) {
         const fallback = `https://ui-avatars.com/api/?name=${this.currentUser?.username || 'User'}&background=6366f1&color=fff`;
-        const url = path ? `${this.apiBaseUrl}${path}` : fallback;
-        
-        const setSrc = (el, src) => {
-            if (!el) return;
-            el.src = src;
-            el.onerror = () => {
-                el.src = fallback;
-                el.onerror = null; // Prevent infinite loop if fallback fails
-            };
-        };
+        let url = fallback;
 
-        setSrc(this.dom.userAvatar, url);
-        setSrc(this.dom.settingsAvatar, url);
+        if (path) {
+            const checkUrl = `${this.apiBaseUrl}${path}`;
+            try {
+                // Quietly check if the image exists before trying to load it
+                const response = await fetch(checkUrl, { method: 'HEAD' });
+                if (response.ok) url = checkUrl;
+            } catch (e) {
+                // If fetch fails, we just stick with the fallback
+            }
+        }
+        
+        if (this.dom.userAvatar) this.dom.userAvatar.src = url;
+        if (this.dom.settingsAvatar) this.dom.settingsAvatar.src = url;
     }
 
     toggleAuthMode(mode) {
