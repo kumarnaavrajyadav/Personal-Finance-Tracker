@@ -214,9 +214,13 @@ class FinanceFlow {
     showApp() {
         this.dom.authOverlay.classList.add('hidden');
         this.dom.mainApp.classList.remove('hidden');
-        this.dom.displayUserName.textContent = this.currentUser.username;
-        this.dom.welcomeName.textContent = this.currentUser.username;
-        this.updateAvatars(this.currentUser.profile_picture);
+        this.dom.displayUserName.textContent = this.currentUser?.username || 'User';
+        this.dom.welcomeName.textContent = this.currentUser?.username || 'User';
+        this.updateAvatars(this.currentUser?.profile_picture);
+        
+        // Ensure the initial view is correctly displayed
+        this.switchView(this.currentView); 
+        
         this.refreshData();
         this.startLiveSync(); // Start background sync
     }
@@ -551,7 +555,7 @@ class FinanceFlow {
         if (!Array.isArray(this.transactions) || this.transactions.length === 0) {
             recentBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No recent activity.</td></tr>';
         } else {
-            recentBody.innerHTML = this.transactions.slice(0, 5).map(t => `
+            recentBody.innerHTML = this.transactions.filter(t => t && t.date).slice(0, 5).map(t => `
                 <tr>
                     <td>${new Date(t.date).toLocaleDateString(undefined, {month:'short', day:'numeric'})}</td>
                     <td><div class="t-row-category"><i class="fas ${this.getCategoryIcon(t.category)}"></i> ${t.description}</div></td>
@@ -597,11 +601,11 @@ class FinanceFlow {
     renderFullTransactionList() {
         const body = this.dom.transactionTableBody;
         if (!body) return;
-        const searchTerm = this.dom.transactionSearch.value.toLowerCase();
+        const searchTerm = (this.dom.transactionSearch?.value || '').toLowerCase();
         
-        let filtered = this.transactions;
+        let filtered = Array.isArray(this.transactions) ? [...this.transactions] : [];
         if (this.activeCategory !== 'All') filtered = filtered.filter(t => t.category === this.activeCategory);
-        if (searchTerm) filtered = filtered.filter(t => t.description.toLowerCase().includes(searchTerm));
+        if (searchTerm) filtered = filtered.filter(t => t.description && t.description.toLowerCase().includes(searchTerm));
 
         if (filtered.length === 0) {
             body.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 40px;">No matching records found.</td></tr>';
@@ -627,7 +631,7 @@ class FinanceFlow {
 
     renderBudgetsView() {
         const list = document.getElementById('activeBudgetsList');
-        if (!list) return;
+        if (!list || !Array.isArray(this.budgets)) return;
         list.innerHTML = this.budgets.map(b => `
             <div class="glass-card" style="padding:20px; position:relative;">
                 <div class="action-btns" style="position:absolute; top:15px; right:15px;">
@@ -803,7 +807,7 @@ class FinanceFlow {
 
     async generateAIInsights() {
         const container = document.getElementById('aiInsightsContent');
-        if (!container) return;
+        if (!container || !Array.isArray(this.transactions)) return;
 
         // Show loading state
         container.innerHTML = `<p class="ai-loading"><i class="fas fa-spinner fa-spin"></i> Brainstorming financial strategies for you...</p>`;
@@ -811,8 +815,8 @@ class FinanceFlow {
         // Simulate "AI Thinking" delay
         await new Promise(r => setTimeout(r, 1200));
 
-        const income = this.transactions.filter(t => t.type === 'income').reduce((a, b) => a + parseFloat(b.amount), 0);
-        const expense = this.transactions.filter(t => t.type === 'expense').reduce((a, b) => a + parseFloat(b.amount), 0);
+        const income = this.transactions.filter(t => t.type === 'income').reduce((a, b) => a + parseFloat(b.amount || 0), 0);
+        const expense = this.transactions.filter(t => t.type === 'expense').reduce((a, b) => a + parseFloat(b.amount || 0), 0);
         const savingsRate = income > 0 ? ((income - expense) / income) * 100 : 0;
         
         const insights = [];
