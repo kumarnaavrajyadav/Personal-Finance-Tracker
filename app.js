@@ -74,35 +74,41 @@ class FinanceFlow {
 
     attachEventListeners() {
         // Auth navigation
-        document.getElementById('toSignup').onclick = (e) => { e.preventDefault(); this.toggleAuthMode('signup'); };
-        document.getElementById('toLogin').onclick = (e) => { e.preventDefault(); this.toggleAuthMode('login'); };
+        const toSignup = document.getElementById('toSignup');
+        const toLogin = document.getElementById('toLogin');
+        if (toSignup) toSignup.onclick = (e) => { e.preventDefault(); this.toggleAuthMode('signup'); };
+        if (toLogin) toLogin.onclick = (e) => { e.preventDefault(); this.toggleAuthMode('login'); };
 
         // Forms
-        this.dom.loginForm.onsubmit = (e) => this.handleAuth(e, 'login');
-        this.dom.signupForm.onsubmit = (e) => this.handleAuth(e, 'signup');
-        this.dom.transactionForm.onsubmit = (e) => this.handleSubmitTransaction(e);
-        this.dom.budgetForm.onsubmit = (e) => this.handleUpdateBudget(e);
-        this.dom.profileUpload.onchange = (e) => this.handleProfileUpload(e);
-        this.dom.downloadPdfBtn.onclick = () => this.generatePDF();
+        if (this.dom.loginForm) this.dom.loginForm.onsubmit = (e) => this.handleAuth(e, 'login');
+        if (this.dom.signupForm) this.dom.signupForm.onsubmit = (e) => this.handleAuth(e, 'signup');
+        if (this.dom.transactionForm) this.dom.transactionForm.onsubmit = (e) => this.handleSubmitTransaction(e);
+        if (this.dom.budgetForm) this.dom.budgetForm.onsubmit = (e) => this.handleUpdateBudget(e);
+        if (this.dom.profileUpload) this.dom.profileUpload.onchange = (e) => this.handleProfileUpload(e);
+        if (this.dom.downloadPdfBtn) this.dom.downloadPdfBtn.onclick = () => this.generatePDF();
 
         // Transaction filters
-        this.dom.filterBtns.forEach(btn => {
-            btn.onclick = () => {
-                this.dom.filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                this.activeCategory = btn.dataset.category;
-                this.renderFullTransactionList();
-            };
-        });
+        if (this.dom.filterBtns) {
+            this.dom.filterBtns.forEach(btn => {
+                btn.onclick = () => {
+                    this.dom.filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    this.activeCategory = btn.dataset.category;
+                    this.renderFullTransactionList();
+                };
+            });
+        }
 
-        this.dom.transactionSearch.oninput = () => this.renderFullTransactionList();
+        if (this.dom.transactionSearch) this.dom.transactionSearch.oninput = () => this.renderFullTransactionList();
 
         // Nav
-        this.dom.navItems.forEach(item => {
-            item.onclick = (e) => { e.preventDefault(); this.switchView(item.dataset.view); };
-        });
+        if (this.dom.navItems) {
+            this.dom.navItems.forEach(item => {
+                item.onclick = (e) => { e.preventDefault(); this.switchView(item.dataset.view); };
+            });
+        }
 
-        this.dom.saveSettingsBtn.onclick = () => this.handleSaveSettings();
+        if (this.dom.saveSettingsBtn) this.dom.saveSettingsBtn.onclick = () => this.handleSaveSettings();
 
         document.querySelectorAll('.view-all-btn').forEach(btn => {
             btn.onclick = () => this.switchView(btn.dataset.view);
