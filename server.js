@@ -19,6 +19,17 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
+// DB Health Check (visit /test after deploy to verify)
+app.get("/test", async (req, res) => {
+  try {
+    const result = await db.query("SELECT NOW()");
+    res.json({ status: "✅ DB connected", time: result.rows[0].now });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: "❌ DB error", error: err.message });
+  }
+});
+
 const SECRET = process.env.JWT_SECRET || "secretkey"; 
 
 // Multer Storage Config
