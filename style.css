@@ -67,7 +67,7 @@ p {
 .auth-overlay {
     position: fixed;
     inset: 0;
-    background: url('assets/dashboard-bg.png') no-repeat center center;
+    background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('assets/finance-bg.jpg') no-repeat center center;
     background-size: cover;
     display: flex;
     align-items: center;
@@ -368,7 +368,7 @@ p {
 .app-container {
     display: flex;
     min-height: 100vh;
-    background: url('assets/dashboard-bg.png') no-repeat center center fixed;
+    background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('assets/finance-bg.jpg') no-repeat center center fixed;
     background-size: cover;
 }
 
