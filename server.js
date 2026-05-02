@@ -11,7 +11,7 @@ const db = require("./db");
 // --- Database Initialization ---
 (async () => {
   try {
-    // 1. Create Tables
+    // 1. Create Tables (Separate queries for robustness)
     await db.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -20,8 +20,10 @@ const db = require("./db");
         password VARCHAR(255) NOT NULL,
         profile_picture TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
+      )
+    `);
 
+    await db.query(`
       CREATE TABLE IF NOT EXISTS transactions (
         id SERIAL PRIMARY KEY,
         user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -31,8 +33,10 @@ const db = require("./db");
         category VARCHAR(100) NOT NULL,
         date DATE NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
+      )
+    `);
 
+    await db.query(`
       CREATE TABLE IF NOT EXISTS budgets (
         id SERIAL PRIMARY KEY,
         user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -42,14 +46,16 @@ const db = require("./db");
         year INTEGER NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE(user_id, category, month, year)
-      );
+      )
+    `);
 
+    await db.query(`
       CREATE TABLE IF NOT EXISTS settings (
         user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
         currency VARCHAR(10) DEFAULT 'USD',
         theme VARCHAR(20) DEFAULT 'dark',
         monthly_income DECIMAL(10, 2) DEFAULT 0.00
-      );
+      )
     `);
 
     // 2. Insert Default User (Hashed password for security)
@@ -204,7 +210,10 @@ app.post("/transaction", auth, (req, res) => {
   `;
 
   db.query(sql, [req.user_id, description, amount, type, category, date], (err) => {
-    if (err) return res.status(500).json(err);
+    if (err) {
+      console.error("❌ Add Transaction Error:", err.message);
+      return res.status(500).json({ message: "Database error", error: err.message });
+    }
     res.json({ message: "Transaction added" });
   });
 });
@@ -237,7 +246,10 @@ app.put("/transaction/:id", auth, (req, res) => {
   `;
 
   db.query(sql, [description, amount, type, category, date, id, req.user_id], (err, result) => {
-    if (err) return res.status(500).json(err);
+    if (err) {
+      console.error("❌ Update Transaction Error:", err.message);
+      return res.status(500).json({ message: "Database error", error: err.message });
+    }
     if (result.rowCount === 0) return res.status(404).json({ message: "Transaction not found" });
     res.json({ message: "Transaction updated" });
   });
@@ -250,7 +262,10 @@ app.delete("/transaction/:id", auth, (req, res) => {
   const { id } = req.params;
 
   db.query("DELETE FROM transactions WHERE id=$1 AND user_id=$2", [id, req.user_id], (err, result) => {
-    if (err) return res.status(500).json(err);
+    if (err) {
+      console.error("❌ Delete Transaction Error:", err.message);
+      return res.status(500).json({ message: "Database error", error: err.message });
+    }
     if (result.rowCount === 0) return res.status(404).json({ message: "Transaction not found" });
     res.json({ message: "Transaction deleted" });
   });
