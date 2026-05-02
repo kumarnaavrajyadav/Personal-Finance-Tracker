@@ -124,6 +124,7 @@ class FinanceFlow {
         document.addEventListener('click', (e) => {
             const btn = e.target.closest('.action-btn');
             if (!btn) return;
+            e.preventDefault();
 
             const action = btn.dataset.action;
             const id = btn.dataset.id;

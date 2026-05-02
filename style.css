@@ -508,6 +508,43 @@ tr:hover td {
 }
 
 /* Components */
+.action-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+    transform: translateY(-2px);
+}
+
+.action-btn.btn-delete:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+.action-btn.btn-edit:hover {
+    background: rgba(99, 102, 241, 0.2);
+    color: var(--primary);
+    border-color: rgba(99, 102, 241, 0.5);
+}
+
 .btn-primary {
     background: var(--primary);
     color: white;
