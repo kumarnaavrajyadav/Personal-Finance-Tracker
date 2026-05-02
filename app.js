@@ -54,7 +54,8 @@ class FinanceFlow {
             currencySelect: document.getElementById('currencySelect'),
             themeToggle: document.getElementById('themeToggle'),
             incomeInput: document.getElementById('incomeInput'),
-            saveSettingsBtn: document.getElementById('saveSettingsBtn')
+            saveSettingsBtn: document.getElementById('saveSettingsBtn'),
+            currentMonthYear: document.getElementById('currentMonthYear')
         };
 
         this.init();
@@ -64,6 +65,7 @@ class FinanceFlow {
         this.attachEventListeners();
         this.checkAuth();
         this.initAuthEffects();
+        this.updateAppDate();
         
         document.querySelectorAll('.open-transaction-modal').forEach(btn => {
             btn.addEventListener('click', () => this.toggleModal('transactionModal', true));
@@ -358,6 +360,16 @@ class FinanceFlow {
             requestAnimationFrame(animate);
         };
         animate();
+    }
+
+    updateAppDate() {
+        const now = new Date();
+        const dd = String(now.getDate()).padStart(2, '0');
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const yyyy = now.getFullYear();
+        if (this.dom.currentMonthYear) {
+            this.dom.currentMonthYear.textContent = `${dd}/${mm}/${yyyy}`;
+        }
     }
 
     // --- DATA FETCHING ---
