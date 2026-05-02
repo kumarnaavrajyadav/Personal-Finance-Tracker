@@ -377,10 +377,11 @@ p {
     background: rgba(0,0,0,0.2);
 }
 .card-header h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
+    font-size: 1.15rem;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    color: var(--text-header);
 }
 
 table {
@@ -391,20 +392,21 @@ table {
 th {
     text-align: left;
     padding: 16px 24px;
-    background: rgba(0,0,0,0.4);
-    color: var(--text-muted);
-    font-size: 0.8rem;
+    background: rgba(0,0,0,0.5);
+    color: #cbd5e1;
+    font-size: 0.85rem;
     text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid var(--border);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    border-bottom: 2px solid var(--border);
 }
 
 td {
     padding: 20px 24px;
     border-bottom: 1px solid var(--border);
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
+    color: var(--text-main);
 }
 
 tr:last-child td {
@@ -413,6 +415,96 @@ tr:last-child td {
 
 tr:hover td {
     background: var(--bg-hover);
+}
+
+/* =============================================
+   4. NEW DASHBOARD COMPONENTS (CHARTS & GRIDS)
+   ============================================= */
+
+.charts-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.chart-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(24px);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.chart-header h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-header);
+}
+
+.chart-select {
+    background: rgba(0,0,0,0.3);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    outline: none;
+}
+
+.canvas-wrapper {
+    flex-grow: 1;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-tables-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.glass-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(24px);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.view-all-btn {
+    background: rgba(99, 102, 241, 0.2);
+    color: #818cf8;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+.view-all-btn:hover {
+    background: rgba(99, 102, 241, 0.4);
+    color: #fff;
 }
 
 /* Components */
