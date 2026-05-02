@@ -244,15 +244,28 @@ class FinanceFlow {
     showApp() {
         this.dom.authOverlay.classList.add('hidden');
         this.dom.mainApp.classList.remove('hidden');
-        this.dom.displayUserName.textContent = this.currentUser?.username || this.currentUser?.name || 'User';
-        this.dom.welcomeName.textContent = this.currentUser?.username || this.currentUser?.name || 'User';
+        const userName = this.currentUser?.username || this.currentUser?.name || 'User';
+        const userEmail = this.currentUser?.email || 'guest@example.com';
+
+        this.dom.displayUserName.textContent = userName;
+        this.dom.welcomeName.textContent = userName;
+        
+        // Update Settings View Info
+        const settingsName = document.getElementById('settingsUserName');
+        const settingsEmail = document.getElementById('settingsUserEmail');
+        const editNameInput = document.getElementById('editName');
+        const editEmailInput = document.getElementById('editEmail');
+
+        if (settingsName) settingsName.textContent = userName;
+        if (settingsEmail) settingsEmail.textContent = userEmail;
+        if (editNameInput) editNameInput.value = userName;
+        if (editEmailInput) editEmailInput.value = userEmail;
+
         this.updateAvatars(this.currentUser?.profile_picture);
         
-        // Ensure the initial view is correctly displayed
         this.switchView(this.currentView); 
-        
         this.refreshData();
-        this.startLiveSync(); // Start background sync
+        this.startLiveSync();
     }
 
     startLiveSync() {
