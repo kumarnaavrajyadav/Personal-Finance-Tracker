@@ -269,21 +269,16 @@ class FinanceFlow {
 
     async updateAvatars(path) {
         const fallback = `https://ui-avatars.com/api/?name=${this.currentUser?.username || 'User'}&background=6366f1&color=fff`;
-        let url = fallback;
+        let url = path ? (path.startsWith('http') ? path : `${this.apiBaseUrl}${path}`) : fallback;
 
-        if (path) {
-            const checkUrl = `${this.apiBaseUrl}${path}`;
-            try {
-                // Quietly check if the image exists before trying to load it
-                const response = await fetch(checkUrl, { method: 'HEAD' });
-                if (response.ok) url = checkUrl;
-            } catch (e) {
-                // If fetch fails, we just stick with the fallback
-            }
-        }
-        
-        if (this.dom.userAvatar) this.dom.userAvatar.src = url;
-        if (this.dom.settingsAvatar) this.dom.settingsAvatar.src = url;
+        const setImg = (el) => {
+            if (!el) return;
+            el.src = url;
+            el.onerror = () => { el.src = fallback; el.onerror = null; };
+        };
+
+        setImg(this.dom.userAvatar);
+        setImg(this.dom.settingsAvatar);
     }
 
     toggleAuthMode(mode) {
@@ -305,13 +300,22 @@ class FinanceFlow {
     // --- GOOGLE AUTH ---
 
     initGoogleAuth() {
+        const clientID = "YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com"; // UPDATE THIS ID
+        
+        if (clientID.includes("YOUR_GOOGLE_CLIENT_ID_HERE")) {
+            console.warn("Google Client ID is missing. Google Login will be disabled.");
+            const btn = document.getElementById("googleSignInBtn");
+            if (btn) btn.innerHTML = '<p style="font-size:0.8rem; color:var(--text-dim);">Google Login Setup Required</p>';
+            return;
+        }
+
         if (typeof google === 'undefined') {
             setTimeout(() => this.initGoogleAuth(), 100);
             return;
         }
 
         google.accounts.id.initialize({
-            client_id: "YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com", // Placeholder
+            client_id: clientID,
             callback: (response) => this.handleGoogleLogin(response)
         });
 
