@@ -1754,3 +1754,114 @@ input:checked+.switch-slider:before {
         justify-content: center;
     }
 }
+/* =============================================
+   MOBILE RESPONSIVENESS OVERHAUL
+   ============================================= */
+
+.mobile-toggle {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    background: var(--primary);
+    border: none;
+    border-radius: 12px;
+    color: var(--bg-dark);
+    font-size: 1.2rem;
+    z-index: 3000;
+    cursor: pointer;
+    box-shadow: var(--shadow-glow);
+}
+
+@media (max-width: 1100px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .charts-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-tables-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 850px) {
+    .mobile-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -300px;
+        z-index: 2500;
+        transition: var(--transition-base);
+        background: rgba(2, 6, 23, 0.98);
+        backdrop-filter: blur(20px);
+    }
+
+    .sidebar.mobile-active {
+        left: 0;
+    }
+
+    .main-content {
+        padding: 80px 20px 40px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .top-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .cash-flow-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .budget-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Table Responsiveness */
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    table {
+        min-width: 600px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cyber-auth-body {
+        padding: 30px 20px;
+    }
+    
+    .stat-card h2 {
+        font-size: 1.8rem;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

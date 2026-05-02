@@ -136,6 +136,29 @@ class FinanceFlow {
             if (action === 'edit-budget') this.openEditBudget(category);
             if (action === 'delete-budget') this.handleDeleteBudget(category);
         });
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        if (mobileBtn) {
+            mobileBtn.onclick = () => {
+                document.querySelector('.sidebar')?.classList.toggle('mobile-active');
+                const icon = mobileBtn.querySelector('i');
+                if (icon) icon.className = document.querySelector('.sidebar')?.classList.contains('mobile-active') ? 'fas fa-times' : 'fas fa-bars';
+            };
+        }
+
+        // Close sidebar when clicking nav item on mobile
+        this.dom.navItems?.forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 850) {
+                    document.querySelector('.sidebar')?.classList.remove('mobile-active');
+                    if (mobileBtn) {
+                        const icon = mobileBtn.querySelector('i');
+                        if (icon) icon.className = 'fas fa-bars';
+                    }
+                }
+            });
+        });
     }
 
     // --- CUSTOM PROMISE-BASED CONFIRMATION ---
