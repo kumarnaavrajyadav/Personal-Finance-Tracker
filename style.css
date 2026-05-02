@@ -691,6 +691,67 @@ tr:hover td {
     color: var(--text-main);
 }
 
+/* Confirmation Modal Specifics */
+.confirm-content {
+    max-width: 400px;
+    text-align: center;
+    padding: 40px 32px;
+}
+
+#confirmTitle {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-header);
+    margin-bottom: 12px;
+}
+
+#confirmMessage {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 32px;
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+}
+
+.btn-danger {
+    background: rgba(239, 68, 68, 0.8);
+    color: white;
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover {
+    background: rgba(239, 68, 68, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+}
+
 /* =============================================
    5. BUDGET MANAGEMENT & OTHER VIEWS
    ============================================= */
