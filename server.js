@@ -224,16 +224,19 @@ app.post("/google-login", async (req, res) => {
 // =========================
 // 📸 UPLOAD PROFILE IMAGE
 // =========================
-app.post("/upload-profile", auth, upload.single("image"), (req, res) => {
-  if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+app.post("/upload-profile", auth, upload.single("image"), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ message: "No file uploaded" });
 
-  const imageUrl = `/uploads/${req.file.filename}`;
-  const sql = "UPDATE users SET profile_picture = $1 WHERE id = $2";
+    const imageUrl = `/uploads/${req.file.filename}`;
+    const sql = "UPDATE users SET profile_picture = $1 WHERE id = $2";
 
-  db.query(sql, [imageUrl, req.user_id], (err) => {
-    if (err) return res.status(500).json(err);
+    await db.query(sql, [imageUrl, req.user_id]);
     res.json({ message: "Profile picture updated", imageUrl });
-  });
+  } catch (err) {
+    console.error("Upload Error:", err);
+    res.status(500).json({ message: "Internal server error during upload" });
+  }
 });
 
 
