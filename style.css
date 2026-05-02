@@ -87,7 +87,7 @@ h4,
 }
 
 /* =============================================
-   CYBERPUNK TERMINAL AUTH SYSTEM
+   MODERN FINTECH AUTH SYSTEM
    ============================================= */
 
 /* Auth Overlay */
@@ -148,150 +148,45 @@ h4,
     100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
 }
 
-/* Cyber Card Wrapper — Animated Gradient Border */
-.cyber-card-wrapper {
+/* Auth Card UI */
+.auth-card-wrapper {
     position: relative;
     z-index: 10;
-    padding: 2px;
-    border-radius: 20px;
-    background: conic-gradient(from var(--angle, 0deg), var(--primary), var(--primary-light), transparent, var(--primary));
-    animation: rotateBorder 6s linear infinite;
     width: 100%;
-    max-width: 520px;
-    margin: 20px;
+    max-width: 450px;
+    padding: 20px;
 }
-
-@property --angle {
-    syntax: '<angle>';
-    initial-value: 0deg;
-    inherits: false;
+ 
+.auth-card {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 32px;
+    padding: 50px 40px;
+    box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.7);
 }
-
-@keyframes rotateBorder {
-    to { --angle: 360deg; }
+ 
+.auth-header {
+    text-align: center;
+    margin-bottom: 40px;
 }
-
-/* Cyber Card */
-.cyber-card {
-    background: rgba(8, 8, 32, 0.95);
-    border-radius: 18px;
-    overflow: hidden;
-    position: relative;
-}
-
-/* Scan Line */
-.scan-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.6), transparent);
-    animation: scanDown 3s ease-in-out infinite;
-    z-index: 50;
-    pointer-events: none;
-}
-
-@keyframes scanDown {
-    0% { top: 0; opacity: 0; }
-    50% { opacity: 1; }
-    100% { top: 100%; opacity: 0; }
-}
-
-/* Terminal Header Bar */
-.terminal-bar {
+ 
+.auth-logo.centered {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 20px;
-    background: rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+    justify-content: center;
+    margin-bottom: 25px;
 }
-
-.terminal-dots {
-    display: flex;
-    gap: 6px;
-}
-
-.terminal-dots .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-}
-
-.dot.red { background: #f43f5e; }
-.dot.yellow { background: #f59e0b; }
-.dot.green { background: #10b981; }
-
-.terminal-title {
-    flex: 1;
-    font-size: 0.65rem;
-    font-family: 'Courier New', monospace;
-    color: var(--text-dim);
-    letter-spacing: 1.5px;
-}
-
-.terminal-status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.6rem;
-    font-family: 'Courier New', monospace;
-    color: var(--success);
-    letter-spacing: 1px;
-}
-
-.status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--success);
-    animation: blink 1.5s ease-in-out infinite;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-}
-
-/* Auth Body */
-.cyber-auth-body {
-    padding: 40px 40px 25px;
-}
-
-/* Cyber Logo */
-.cyber-logo {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
+ 
 .auth-logo-img {
-    width: 90px;
-    height: 90px;
-    object-fit: cover;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    border: 3px solid var(--primary);
-    box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
+    border: 4px solid var(--primary);
+    box-shadow: 0 0 40px rgba(245, 158, 11, 0.3);
+    padding: 5px;
     background: #fff;
-    padding: 8px;
-    margin-bottom: 20px;
 }
-
-.hex-ring {
-    position: absolute;
-    inset: -4px;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    background: conic-gradient(from 0deg, var(--primary), transparent, var(--primary));
-    animation: hexSpin 3s linear infinite;
-    z-index: -1;
-}
-
-@keyframes hexSpin {
-    to { transform: rotate(360deg); }
-}
-
+ 
 .logo-text {
     display: flex;
     flex-direction: column;
@@ -1915,4 +1810,107 @@ input:checked+.switch-slider:before {
 
 .cyber-logo.centered .logo-text {
     display: none;
+}
+
+/* =============================================
+   HUMAN-FRIENDLY UI REFINEMENTS
+   ============================================= */
+
+.auth-title-large {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.auth-subtitle-clean {
+    color: var(--text-dim);
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-dim);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 15px;
+    color: var(--primary);
+    font-size: 1rem;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1rem;
+    transition: var(--transition-base);
+}
+
+.input-wrapper input:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+    outline: none;
+}
+
+.btn-primary-large {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: none;
+    border-radius: 12px;
+    color: var(--bg-dark);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-base);
+    margin-top: 10px;
+}
+
+.btn-primary-large:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+}
+
+.google-login-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.auth-card {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Hide legacy cyber elements */
+.scan-line, .terminal-bar, .hex-ring, .btn-glitch {
+    display: none !important;
 }

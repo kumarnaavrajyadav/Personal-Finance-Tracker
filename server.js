@@ -7,6 +7,8 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const db = require("./db");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // --- Database Initialization ---
 (async () => {
@@ -17,8 +19,9 @@ const db = require("./db");
         id SERIAL PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
         email VARCHAR(255) NOT NULL UNIQUE,
-        password VARCHAR(255) NOT NULL,
+        password VARCHAR(255),
         profile_picture TEXT,
+        google_id VARCHAR(255),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
@@ -152,33 +155,57 @@ app.post("/signup", async (req, res) => {
 // =========================
 // 🔐 LOGIN
 // =========================
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-
-  db.query("SELECT * FROM users WHERE email = $1", [email], async (err, result) => {
-    if (err) return res.status(500).json(err);
-
-    if (result.rows.length === 0) {
-      return res.status(400).json({ message: "User not found" });
-    }
-
+  try {
+    const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
     const user = result.rows[0];
-    const isMatch = await bcrypt.compare(password, user.password);
+    if (!user || !user.password) return res.status(401).json({ message: "Invalid credentials" });
 
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid password" });
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) return res.status(401).json({ message: "Invalid credentials" });
+
+    const token = jwt.sign({ id: user.id }, SECRET, { expiresIn: "1d" });
+    res.json({ token, user_id: user.id, name: user.name, profile_picture: user.profile_picture });
+  } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+app.post("/google-login", async (req, res) => {
+  const { credential } = req.body;
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID
+    });
+    const payload = ticket.getPayload();
+    const { sub: google_id, email, name, picture: profile_picture } = payload;
+
+    // Upsert user
+    let userResult = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+    let user = userResult.rows[0];
+
+    if (!user) {
+      userResult = await db.query(
+        "INSERT INTO users (name, email, google_id, profile_picture) VALUES ($1, $2, $3, $4) RETURNING *",
+        [name, email, google_id, profile_picture]
+      );
+      user = userResult.rows[0];
+    } else {
+      // Update profile picture and google_id if existing user logins with Google
+      await db.query(
+        "UPDATE users SET name = $1, profile_picture = $2, google_id = $3 WHERE id = $4",
+        [name, profile_picture, google_id, user.id]
+      );
+      user.profile_picture = profile_picture;
+      user.name = name;
     }
 
-    const token = jwt.sign({ id: user.id, name: user.name }, SECRET, { expiresIn: "1d" });
-
-    res.json({
-      message: "Login successful",
-      token,
-      user_id: user.id,
-      name: user.name,
-      profile_picture: user.profile_picture
-    });
-  });
+    const token = jwt.sign({ id: user.id }, SECRET, { expiresIn: "1d" });
+    res.json({ token, user_id: user.id, name: user.name, profile_picture: user.profile_picture });
+  } catch (err) {
+    console.error("Google Auth Error:", err);
+    res.status(400).json({ message: "Google Authentication failed" });
+  }
 });
 
 // =========================

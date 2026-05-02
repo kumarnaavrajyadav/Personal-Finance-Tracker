@@ -14,6 +14,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap"
         rel="stylesheet">
+    
+    <!-- Google Identity Services (OAuth 2.0) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <!-- PDF Generation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
@@ -33,78 +37,36 @@
         <!-- Particle Canvas Background -->
         <canvas id="particleCanvas"></canvas>
 
-        <!-- Floating Currency Symbols -->
-        <div class="floating-symbols">
-            <span class="float-sym" style="--d:12s; --x:10%; --s:1.5">$</span>
-            <span class="float-sym" style="--d:18s; --x:25%; --s:0.8">€</span>
-            <span class="float-sym" style="--d:15s; --x:40%; --s:1.2">₹</span>
-            <span class="float-sym" style="--d:20s; --x:55%; --s:0.6">¥</span>
-            <span class="float-sym" style="--d:14s; --x:70%; --s:1.0">£</span>
-            <span class="float-sym" style="--d:22s; --x:85%; --s:1.3">₿</span>
-            <span class="float-sym" style="--d:16s; --x:15%; --s:0.9">◈</span>
-            <span class="float-sym" style="--d:19s; --x:60%; --s:0.7">◇</span>
-        </div>
-
-        <!-- Main Auth Card with Animated Border -->
-        <div class="cyber-card-wrapper">
-            <div class="cyber-card">
-                <!-- Scan Line Effect -->
-                <div class="scan-line"></div>
-
-                <!-- Terminal Header -->
-                <div class="terminal-bar">
-                    <div class="terminal-dots">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                    </div>
-                    <span class="terminal-title">FINANCEFLOW_AUTH://SECURE_GATEWAY</span>
-                    <div class="terminal-status">
-                        <span class="status-dot"></span> ENCRYPTED
-                    </div>
-                </div>
-
+        <!-- Main Auth Card -->
+        <div class="auth-card-wrapper">
+            <div class="auth-card">
                 <!-- Auth Content -->
-                <div class="cyber-auth-body">
+                <div class="auth-body">
                     <div class="auth-header">
-                        <div class="cyber-logo centered">
+                        <div class="auth-logo centered">
                             <img src="assets/logo.png" alt="Logo" class="auth-logo-img">
-                            <div class="logo-text">
-                                <span class="brand">FinanceFlow</span>
-                                <span class="version">v2.0 TITANIUM</span>
-                            </div>
                         </div>
-                        <h2 id="authTitle" class="typewriter-text">
-                            <span class="typing-cursor">_</span>
-                        </h2>
-                        <p id="authSubtitle" class="cyber-subtitle">
-                            <span class="bracket">[</span> Elite Financial Intelligence <span class="bracket">]</span>
+                        <h2 id="authTitle" class="auth-title-large">Welcome Back</h2>
+                        <p id="authSubtitle" class="auth-subtitle-clean">
+                            Manage your wealth with confidence
                         </p>
                     </div>
 
                     <!-- Login Form -->
                     <form id="loginForm" class="auth-form">
-                        <div class="cyber-input-group">
-                            <div class="input-label-row">
-                                <i class="fas fa-at"></i>
-                                <label>EMAIL_ADDR</label>
-                            </div>
-                            <div class="cyber-input-wrapper">
-                                <input type="email" id="loginEmail" placeholder="user@domain.com" required
-                                    autocomplete="email">
-                                <div class="input-glow"></div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="loginEmail" placeholder="name@example.com" required autocomplete="email">
                             </div>
                         </div>
 
-                        <div class="cyber-input-group">
-                            <div class="input-label-row">
-                                <i class="fas fa-fingerprint"></i>
-                                <label>PASS_KEY</label>
-                            </div>
-                            <div class="cyber-input-wrapper">
-                                <input type="password" id="loginPassword" placeholder="••••••••••" required
-                                    autocomplete="current-password">
-                                <div class="input-glow"></div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="loginPassword" placeholder="Enter your password" required autocomplete="current-password">
                             </div>
                         </div>
 
@@ -112,89 +74,60 @@
                             <label class="remember-me">
                                 <input type="checkbox">
                                 <span class="custom-check"></span>
-                                <span>PERSIST_SESSION</span>
+                                <span>Remember Me</span>
                             </label>
-                            <a href="#" class="forgot-link">> RECOVER_KEY</a>
+                            <a href="#" class="forgot-link">Forgot Password?</a>
                         </div>
 
-                        <button type="submit" class="cyber-btn-primary">
-                            <span class="btn-text">INITIALIZE SESSION</span>
-                            <span class="btn-loader"></span>
-                            <div class="btn-glitch"></div>
+                        <button type="submit" class="btn-primary-large">
+                            <span class="btn-text">Sign In</span>
                         </button>
 
                         <div class="auth-divider">
-                            <div class="divider-line"></div>
-                            <span class="divider-text">ALT_AUTH</span>
-                            <div class="divider-line"></div>
+                            <span class="divider-text">OR CONTINUE WITH</span>
                         </div>
 
-                        <div class="social-grid single-col">
-                            <button type="button" class="google-login-btn" onclick="window.app.showNotification('Google Authentication is ready to be linked!', 'info')">
-                                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
-                                <span>Continue with Google</span>
-                            </button>
-                        </div>
+                        <div id="googleSignInBtn" class="google-login-container"></div>
 
                         <p class="auth-footer">
-                            <span class="terminal-prompt">></span> NEW_USER? <a href="#"
-                                id="toSignup">CREATE_IDENTITY</a>
+                            Don't have an account? <a href="#" id="toSignup">Sign up</a>
                         </p>
                     </form>
 
-                    <!-- Signup Form (Hidden by default) -->
+                    <!-- Signup Form -->
                     <form id="signupForm" class="auth-form hidden">
-                        <div class="cyber-input-group">
-                            <div class="input-label-row">
-                                <i class="fas fa-id-card"></i>
-                                <label>FULL_NAME</label>
-                            </div>
-                            <div class="cyber-input-wrapper">
-                                <input type="text" id="signupName" placeholder="Your full name" required>
-                                <div class="input-glow"></div>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="signupName" placeholder="Enter your name" required>
                             </div>
                         </div>
 
-                        <div class="cyber-input-group">
-                            <div class="input-label-row">
-                                <i class="fas fa-at"></i>
-                                <label>EMAIL_ADDR</label>
-                            </div>
-                            <div class="cyber-input-wrapper">
-                                <input type="email" id="signupEmail" placeholder="user@domain.com" required>
-                                <div class="input-glow"></div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="signupEmail" placeholder="name@example.com" required>
                             </div>
                         </div>
 
-                        <div class="cyber-input-group">
-                            <div class="input-label-row">
-                                <i class="fas fa-shield-halved"></i>
-                                <label>PASS_KEY</label>
-                            </div>
-                            <div class="cyber-input-wrapper">
-                                <input type="password" id="signupPassword" placeholder="••••••••••" required>
-                                <div class="input-glow"></div>
+                        <div class="form-group">
+                            <label>Create Password</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="signupPassword" placeholder="Minimum 8 characters" required>
                             </div>
                         </div>
 
-                        <button type="submit" class="cyber-btn-primary">
-                            <span class="btn-text">ESTABLISH IDENTITY</span>
-                            <span class="btn-loader"></span>
-                            <div class="btn-glitch"></div>
+                        <button type="submit" class="btn-primary-large">
+                            <span class="btn-text">Create Account</span>
                         </button>
 
                         <p class="auth-footer">
-                            <span class="terminal-prompt">></span> EXISTING_USER? <a href="#"
-                                id="toLogin">VERIFY_IDENTITY</a>
+                            Already have an account? <a href="#" id="toLogin">Sign in</a>
                         </p>
                     </form>
-                </div>
-
-                <!-- Footer Status Bar -->
-                <div class="cyber-footer-bar">
-                    <span><i class="fas fa-shield-halved"></i> AES-256 ENCRYPTED</span>
-                    <span><i class="fas fa-server"></i> NODE: RENDER_CLOUD</span>
-                    <span><i class="fas fa-clock"></i> <span id="authClock">00:00:00</span></span>
                 </div>
             </div>
         </div>
@@ -244,48 +177,111 @@
                         <p>Here's what's happening with your money today.</p>
                     </div>
                     <div class="top-actions">
-                        <button class="btn btn-primary open-transaction-modal">
+                        <div class="date-display">
+                            <i class="far fa-calendar-alt"></i>
+                            <span id="currentDate">May 15, 2024</span>
+                        </div>
+                        <button class="btn-primary open-transaction-modal">
                             <i class="fas fa-plus"></i> New Transaction
                         </button>
-                        <div class="date-picker">
-                            <i class="fas fa-calendar"></i>
-                            <span id="currentMonthYear">April 2026</span>
-                        </div>
                     </div>
                 </header>
 
+                <!-- Key Metrics Grid -->
                 <div class="stats-grid">
-                    <div class="stat-card balance">
+                    <div class="stat-card balance floating">
+                        <div class="stat-icon"><i class="fas fa-wallet"></i></div>
                         <div class="stat-info">
-                            <span class="stat-label">Total Balance</span>
+                            <p>Total Balance</p>
                             <h2 id="totalBalance">$0.00</h2>
-                            <span class="stat-change positive"><i class="fas fa-arrow-up"></i> +12% from last
-                                month</span>
+                            <span class="trend up"><i class="fas fa-arrow-up"></i> +2.5%</span>
                         </div>
-                        <div class="stat-icon"><i class="fas fa-vault"></i></div>
                     </div>
                     <div class="stat-card income">
+                        <div class="stat-icon"><i class="fas fa-arrow-down"></i></div>
                         <div class="stat-info">
-                            <span class="stat-label">Total Income</span>
+                            <p>Total Income</p>
                             <h2 id="totalIncome">$0.00</h2>
                         </div>
-                        <div class="stat-icon"><i class="fas fa-arrow-trend-up"></i></div>
                     </div>
                     <div class="stat-card expense">
+                        <div class="stat-icon"><i class="fas fa-arrow-up"></i></div>
                         <div class="stat-info">
-                            <span class="stat-label">Total Expenses</span>
+                            <p>Total Expenses</p>
                             <h2 id="totalExpense">$0.00</h2>
                         </div>
-                        <div class="stat-icon"><i class="fas fa-arrow-trend-down"></i></div>
                     </div>
                 </div>
 
-                <!-- AI Smart Insights Section -->
-                <div class="ai-insights-container">
-                    <div class="glass-card ai-card">
+                <!-- Charts Section -->
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Financial Overview</h3>
+                            <div class="chart-actions">
+                                <select class="chart-select">
+                                    <option>Last 7 Days</option>
+                                    <option selected>Last 30 Days</option>
+                                    <option>Last 6 Months</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="mainChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Spending by Category</h3>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Tables Grid -->
+                <div class="dashboard-tables-grid">
+                    <!-- Recent Transactions -->
+                    <div class="table-card glass-card">
+                        <div class="card-header">
+                            <h3>Recent Transactions</h3>
+                            <button class="view-all-btn" data-view="transactions">View All</button>
+                        </div>
+                        <div class="table-container">
+                            <table id="recentTransactionsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dynamic Content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Budget Goals -->
+                    <div class="table-card glass-card">
+                        <div class="card-header">
+                            <h3>Budget Tracking</h3>
+                            <button class="view-all-btn" data-view="budgets">Adjust Limits</button>
+                        </div>
+                        <div id="budgetProgressList" class="budget-progress-container">
+                            <!-- Dynamic Content -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Insights Panel -->
+                <div class="ai-insights-panel glass-card">
+                    <div class="ai-header">
                         <div class="ai-branding">
-                            <div class="ai-glow-icon">
-                                <i class="fas fa-microchip"></i>
+                            <div class="ai-icon">
+                                <i class="fas fa-brain"></i>
                                 <span class="pulse-ring"></span>
                             </div>
                             <div class="ai-meta">
@@ -294,72 +290,8 @@
                             </div>
                         </div>
                         <div id="aiInsightsContent" class="ai-content">
-                            <p class="ai-loading">Analyzing your financial patterns...</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dashboard Analytics Table -->
-                <div class="charts-container">
-                    <div class="chart-card glass-card">
-                        <div class="chart-header">
-                            <h3>Financial Movement</h3>
-                            <div class="chart-actions">
-                                <button class="btn-icon active">Week</button>
-                                <button class="btn-icon">Month</button>
-                            </div>
-                        </div>
-                        <div class="chart-body"><canvas id="trendsChart"></canvas></div>
-                    </div>
-                    <div class="chart-card glass-card">
-                        <h3>Expenses by Category</h3>
-                        <div class="chart-body"><canvas id="categoryChart"></canvas></div>
-                    </div>
-                </div>
-
-                <div class="dashboard-tables-grid">
-                    <div class="glass-card table-section">
-                        <div class="section-header">
-                            <h3>Recent Activity</h3>
-                            <button class="btn btn-primary btn-sm view-all-btn" data-view="transactions">View
-                                All</button>
-                        </div>
-                        <div class="table-container compact-table">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                        <th>Amount</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dashboardRecentTransactions">
-                                    <!-- Dynamic Rows -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="glass-card table-section">
-                        <div class="section-header">
-                            <h3>Budget Tracking</h3>
-                            <button class="btn btn-primary btn-sm view-all-btn" data-view="budgets">Adjust
-                                Limits</button>
-                        </div>
-                        <div class="table-container compact-table">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Category</th>
-                                        <th>Spent / Limit</th>
-                                        <th>Status & Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dashboardBudgetTable">
-                                    <!-- Dynamic Rows -->
-                                </tbody>
-                            </table>
+                            <!-- AI Generated Advice Goes Here -->
+                            Analyzing your spending patterns...
                         </div>
                     </div>
                 </div>
@@ -369,62 +301,36 @@
             <section id="transactionsView" class="view-section hidden">
                 <header class="top-bar">
                     <div class="greeting">
-                        <h1>Cash Flow Tracking</h1>
-                        <p>Analyze your financial movement with precision.</p>
+                        <h1>Transaction History</h1>
+                        <p>Detailed breakdown of your financial activities.</p>
+                    </div>
+                    <div class="top-actions">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="transactionSearch" placeholder="Search transactions...">
+                        </div>
+                        <button class="btn-primary open-transaction-modal">
+                            <i class="fas fa-plus"></i> New
+                        </button>
                     </div>
                 </header>
 
-                <!-- Cash Flow Summary Header -->
-                <div class="cash-flow-summary">
-                    <div class="glass-card cf-card inflow">
-                        <span class="cf-label">Total Inflow</span>
-                        <h2 id="totalInflow">$0</h2>
-                        <div class="cf-indicator"><i class="fas fa-arrow-up"></i></div>
-                    </div>
-                    <div class="glass-card cf-card outflow">
-                        <span class="cf-label">Total Outflow</span>
-                        <h2 id="totalOutflow">$0</h2>
-                        <div class="cf-indicator"><i class="fas fa-arrow-down"></i></div>
-                    </div>
-                    <div class="glass-card cf-card net-flow">
-                        <span class="cf-label">Net Cash Flow</span>
-                        <h2 id="netCashFlow">$0</h2>
-                        <div class="cf-indicator"><i class="fas fa-sync-alt"></i></div>
-                    </div>
-                </div>
-
-                <div class="glass-card transactions-card">
-                    <div class="filter-bar">
-                        <div class="search-box">
-                            <i class="fas fa-search"></i>
-                            <input type="text" id="transactionSearch" placeholder="Filter by description...">
-                        </div>
-                        <div class="category-filters">
-                            <button class="filter-btn active" data-category="All">All</button>
-                            <button class="filter-btn" data-category="Food">Food</button>
-                            <button class="filter-btn" data-category="Transport">Transport</button>
-                            <button class="filter-btn" data-category="Shopping">Shopping</button>
-                            <button class="filter-btn" data-category="Salary">Salary</button>
-                        </div>
-                    </div>
-
-                    <div class="table-container">
-                        <table class="cash-flow-table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Category</th>
-                                    <th>Description</th>
-                                    <th>Type</th>
-                                    <th>Amount</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="transactionTableBody">
-                                <!-- Data injected here -->
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="full-table-container glass-card">
+                    <table id="fullTransactionsTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fullTransactionsBody">
+                            <!-- Dynamic Content -->
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
@@ -433,31 +339,40 @@
                 <header class="top-bar">
                     <div class="greeting">
                         <h1>Budget Management</h1>
-                        <p>Stay on track with personalized spending limits.</p>
+                        <p>Set limits and control your spending habits.</p>
                     </div>
                 </header>
+
                 <div class="budget-layout">
-                    <div class="glass-card budget-setup">
-                        <h3>Set New Budget</h3>
+                    <!-- Budget Form Card -->
+                    <div class="budget-form-card glass-card">
+                        <h3>Set Category Limit</h3>
                         <form id="budgetForm">
                             <div class="form-group">
-                                <label>Category</label>
-                                <select id="budgetCategory">
-                                    <option value="Food">Food</option>
-                                    <option value="Transport">Transport</option>
-                                    <option value="Entertainment">Entertainment</option>
+                                <label for="budgetCategory">Category</label>
+                                <select id="budgetCategory" required>
+                                    <option value="Food">Food & Dining</option>
                                     <option value="Shopping">Shopping</option>
-                                    <option value="Utilities">Utilities</option>
+                                    <option value="Transport">Transportation</option>
+                                    <option value="Housing">Housing & Rent</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Others">Others</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Monthly Limit ($)</label>
-                                <input type="number" id="budgetLimit" placeholder="0.00" required>
+                                <label for="budgetLimit">Monthly Limit ($)</label>
+                                <input type="number" id="budgetLimit" placeholder="0.00" step="0.01" required>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-full">Save Budget</button>
+                            <button type="submit" class="btn-primary full-width">Update Budget</button>
                         </form>
                     </div>
-                    <div id="activeBudgetsList" class="active-budgets-grid"></div>
+
+                    <!-- Budget Summary Grid -->
+                    <div id="fullBudgetGrid" class="budget-grid">
+                        <!-- Dynamic Budget Cards -->
+                    </div>
                 </div>
             </section>
 
@@ -466,49 +381,33 @@
                 <header class="top-bar">
                     <div class="greeting">
                         <h1>Financial Reports</h1>
-                        <p>Generate and export monthly financial insights.</p>
+                        <p>Generate detailed statements and analysis.</p>
                     </div>
                 </header>
 
-                <div class="reports-layout">
-                    <div class="glass-card report-selector">
+                <div class="reports-grid">
+                    <div class="report-card glass-card">
+                        <div class="report-icon"><i class="fas fa-file-pdf"></i></div>
                         <h3>Monthly Statement</h3>
-                        <p>Select a month to generate your categorized financial report.</p>
-                        <div class="form-row" style="margin-top: 20px;">
-                            <div class="form-group">
-                                <label>Month</label>
-                                <select id="reportMonth">
-                                    <option value="1">January</option>
-                                    <option value="2">February</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Year</label>
-                                <select id="reportYear">
-                                    <option value="2026">2026</option>
-                                    <option value="2025">2025</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary btn-full" id="downloadPdfBtn">
-                            <i class="fas fa-file-pdf"></i> Download PDF Report
-                        </button>
+                        <p>Comprehensive PDF report of all transactions this month.</p>
+                        <button id="downloadPdfBtn" class="btn-secondary">Download PDF</button>
                     </div>
-
-                    <div class="glass-card report-preview">
-                        <div class="preview-placeholder">
-                            <i class="fas fa-file-invoice-dollar fa-4x"></i>
-                            <h4>Select filters to preview report</h4>
+                    <div class="report-card glass-card">
+                        <div class="report-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>Cash Flow Analysis</h3>
+                        <div class="cash-flow-summary">
+                            <div class="flow-item">
+                                <span>Total Inflow</span>
+                                <h4 id="totalInflow">$0</h4>
+                            </div>
+                            <div class="flow-item">
+                                <span>Total Outflow</span>
+                                <h4 id="totalOutflow">$0</h4>
+                            </div>
+                            <div class="flow-item highlight">
+                                <span>Net Savings</span>
+                                <h4 id="netCashFlow">$0</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -518,51 +417,56 @@
             <section id="settingsView" class="view-section hidden">
                 <header class="top-bar">
                     <div class="greeting">
-                        <h1>Settings Hub</h1>
-                        <p>Configure your intelligence and preferences.</p>
+                        <h1>Account Settings</h1>
+                        <p>Manage your profile and preferences.</p>
                     </div>
                 </header>
 
-                <div class="settings-hub-grid">
-                    <!-- Column 1: Identity -->
-                    <div class="glass-card settings-column identity-card">
-                        <div class="card-glow"></div>
-                        <h3>Identity Master</h3>
-                        <div class="profile-chamber">
-                            <div class="avatar-orbit">
-                                <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" alt="User"
-                                    class="avatar-large" id="settingsAvatar">
-                                <div class="orbit-ring"></div>
+                <div class="settings-grid">
+                    <div class="settings-card glass-card">
+                        <div class="settings-profile-header">
+                            <div class="profile-avatar-container">
+                                <img src="https://ui-avatars.com/api/?name=User" alt="Avatar" id="settingsAvatar">
+                                <label for="avatarUpload" class="avatar-edit-badge"><i class="fas fa-camera"></i></label>
+                                <input type="file" id="avatarUpload" hidden accept="image/*">
                             </div>
-                            <div class="profile-details">
-                                <h4 id="profileName">Navraj Singh</h4>
-                                <p id="profileEmail">navraj@example.com</p>
-                                <span class="badge badge-indigo">Pro Node</span>
+                            <div class="profile-meta">
+                                <h2 id="settingsUserName">Guest User</h2>
+                                <p id="settingsUserEmail">guest@example.com</p>
                             </div>
                         </div>
-                        <div class="setting-controls">
-                            <div class="control-item">
-                                <label>Profile Branding</label>
-                                <div class="upload-area">
-                                    <input type="file" id="profileUpload" hidden accept="image/*">
-                                    <label for="profileUpload" class="btn btn-primary btn-sm btn-full">
-                                        <i class="fas fa-upload"></i> Upload New Core
-                                    </label>
-                                </div>
+                        <form id="settingsForm" class="settings-form">
+                            <div class="form-group">
+                                <label>Display Name</label>
+                                <input type="text" id="editName" required>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" id="editEmail" readonly disabled>
+                            </div>
+                            <button type="submit" id="saveSettingsBtn" class="btn-primary">Save Changes</button>
+                        </form>
                     </div>
 
-                    <!-- Column 2: Visuals & Local -->
-                    <div class="glass-card settings-column">
-                        <h3>Environment</h3>
-                        <div class="setting-controls">
+                    <div class="settings-card glass-card">
+                        <h3>Security & Preferences</h3>
+                        <div class="control-list">
                             <div class="control-item">
                                 <div class="control-meta">
-                                    <label>Currency Architecture</label>
-                                    <p>Primary unit for asset visualization</p>
+                                    <label>Two-Factor Authentication</label>
+                                    <p>Secure your account with 2FA.</p>
                                 </div>
-                                <select id="currencySelect" class="cyber-select">
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="control-item">
+                                <div class="control-meta">
+                                    <label>Currency Preference</label>
+                                    <p>Primary currency for calculations.</p>
+                                </div>
+                                <select class="cyber-select">
                                     <option value="USD">USD ($)</option>
                                     <option value="EUR">EUR (€)</option>
                                     <option value="INR">INR (₹)</option>
@@ -570,114 +474,88 @@
                             </div>
                             <div class="control-item">
                                 <div class="control-meta">
-                                    <label>Dark Matrix Mode</label>
-                                    <p>High-contrast visual rendering</p>
+                                    <label>Email Notifications</label>
+                                    <p>Monthly summary and alerts.</p>
                                 </div>
-                                <label class="cyber-switch">
-                                    <input type="checkbox" checked id="themeToggle">
-                                    <span class="switch-slider"></span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
                                 </label>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Column 3: Security & Terminal -->
-                    <div class="glass-card settings-column">
-                        <h3>System Security</h3>
-                        <div class="setting-controls">
-                            <div class="control-item">
-                                <div class="control-meta">
-                                    <label>Monthly Inflow Target</label>
-                                    <p>Establish your financial baseline</p>
-                                </div>
-                                <div class="input-with-icon">
-                                    <i class="fas fa-dollar-sign"></i>
-                                    <input type="number" id="incomeInput" placeholder="5000" class="cyber-input">
-                                </div>
-                            </div>
-                            <div class="control-item">
-                                <button id="saveSettingsBtn" class="btn btn-primary btn-full glitch-btn">
-                                    <i class="fas fa-save"></i> Save Configuration
-                                </button>
-                            </div>
-                            <div class="control-divider"></div>
-                            <div class="control-item">
-                                <button class="btn btn-danger btn-full logout-btn-large" onclick="window.app.logout()">
-                                    <i class="fas fa-power-off"></i> Terminate Session
-                                </button>
-                            </div>
-                        </div>
+                        <button class="logout-btn-large" id="finalLogoutBtn">Log Out Securely</button>
                     </div>
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- Add Transaction Modal -->
-    <div id="transactionModal" class="modal-overlay hidden">
+    <!-- Modals -->
+    <div id="transactionModal" class="modal hidden">
         <div class="modal-content glass-card">
             <div class="modal-header">
                 <h3 id="modalTitle">New Transaction</h3>
                 <button class="close-modal"><i class="fas fa-times"></i></button>
             </div>
             <form id="transactionForm">
-                <input type="hidden" id="editTaskId" value="">
+                <input type="hidden" id="editTaskId">
                 <div class="form-group">
-                    <label>Description</label>
-                    <input type="text" id="description" placeholder="Where did it go?" required>
+                    <label for="description">Description</label>
+                    <input type="text" id="description" placeholder="What was this for?" required>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Amount ($)</label>
+                        <label for="amount">Amount ($)</label>
                         <input type="number" id="amount" placeholder="0.00" step="0.01" required>
                     </div>
                     <div class="form-group">
-                        <label>Type</label>
-                        <select id="type">
-                            <option value="expense">Expense</option>
+                        <label for="type">Type</label>
+                        <select id="type" required>
                             <option value="income">Income</option>
+                            <option value="expense" selected>Expense</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Category</label>
-                    <select id="category">
-                        <option value="Food">Food</option>
-                        <option value="Transport">Transport</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Shopping">Shopping</option>
-                        <option value="Utilities">Utilities</option>
-                        <option value="Salary">Salary</option>
-                        <option value="Others">Others</option>
-                    </select>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" required>
+                            <option value="Food">Food & Dining</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Transport">Transportation</option>
+                            <option value="Housing">Housing & Rent</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Education">Education</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="date" id="date" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-full">Save Record</button>
+                <button type="submit" class="btn-primary full-width">Complete Transaction</button>
             </form>
         </div>
     </div>
 
-    <!-- Custom Confirmation Modal -->
-    <div id="confirmModal" class="modal-overlay hidden" style="z-index: 2000;">
-        <div class="modal-content glass-card confirm-box" style="max-width:350px; text-align:center;">
-            <div class="confirm-icon" style="font-size: 3rem; color: var(--danger); margin-bottom: 20px;"><i
-                    class="fas fa-exclamation-triangle"></i></div>
-            <h3 id="confirmTitle" style="margin-bottom:10px;">Confirm Delete</h3>
-            <p id="confirmMessage" style="margin-bottom:25px; color:var(--text-dim); font-size:0.9rem;">Are you sure you
-                want to delete this record? This action cannot be undone.</p>
-            <div class="modal-actions" style="display:flex; gap:10px; justify-content:center;">
-                <button id="cancelConfirm" class="btn btn-secondary btn-full">Cancel</button>
-                <button id="submitConfirm" class="btn btn-danger btn-full">Yes, Delete</button>
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal hidden">
+        <div class="modal-content glass-card confirm-content">
+            <h3 id="confirmTitle">Confirm Action</h3>
+            <p id="confirmMessage">Are you sure you want to proceed?</p>
+            <div class="confirm-actions">
+                <button id="cancelConfirm" class="btn-ghost">Cancel</button>
+                <button id="submitConfirm" class="btn-danger">Confirm</button>
             </div>
         </div>
     </div>
 
-    <!-- Notification Toast -->
-    <div id="notification" class="notification hidden"></div>
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container"></div>
 
+    <!-- Application Logic -->
     <script src="app.js"></script>
 </body>
 

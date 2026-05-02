@@ -64,7 +64,7 @@ class FinanceFlow {
         this.attachEventListeners();
         this.checkAuth();
         this.updateAppDate();
-        this.typewriterEffect('authTitle', 'TITANIUM ELITE ACCESS');
+        this.initGoogleAuth();
         
         document.querySelectorAll('.open-transaction-modal').forEach(btn => {
             btn.addEventListener('click', () => this.toggleModal('transactionModal', true));
@@ -243,8 +243,8 @@ class FinanceFlow {
     showApp() {
         this.dom.authOverlay.classList.add('hidden');
         this.dom.mainApp.classList.remove('hidden');
-        this.dom.displayUserName.textContent = this.currentUser?.username || 'User';
-        this.dom.welcomeName.textContent = this.currentUser?.username || 'User';
+        this.dom.displayUserName.textContent = this.currentUser?.username || this.currentUser?.name || 'User';
+        this.dom.welcomeName.textContent = this.currentUser?.username || this.currentUser?.name || 'User';
         this.updateAvatars(this.currentUser?.profile_picture);
         
         // Ensure the initial view is correctly displayed
@@ -290,36 +290,64 @@ class FinanceFlow {
         this.dom.loginForm.classList.toggle('hidden', mode === 'signup');
         this.dom.signupForm.classList.toggle('hidden', mode === 'login');
         
+        const title = document.getElementById('authTitle');
         const subtitle = document.getElementById('authSubtitle');
         
         if (mode === 'signup') {
-            this.typewriterEffect('authTitle', 'ESTABLISH ELITE IDENTITY');
-            subtitle.innerHTML = '<span class="bracket">[</span> Premium Asset Registration <span class="bracket">]</span>';
+            title.textContent = 'Create Account';
+            subtitle.textContent = 'Join FinanceFlow and start tracking';
         } else {
-            this.typewriterEffect('authTitle', 'VERIFY ACCESS KEY');
-            subtitle.innerHTML = '<span class="bracket">[</span> Secure Asset Management Gateway <span class="bracket">]</span>';
+            title.textContent = 'Welcome Back';
+            subtitle.textContent = 'Manage your wealth with confidence';
+        }
+    }
+
+    // --- GOOGLE AUTH ---
+
+    initGoogleAuth() {
+        if (typeof google === 'undefined') {
+            setTimeout(() => this.initGoogleAuth(), 100);
+            return;
+        }
+
+        google.accounts.id.initialize({
+            client_id: "YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com", // Placeholder
+            callback: (response) => this.handleGoogleLogin(response)
+        });
+
+        google.accounts.id.renderButton(
+            document.getElementById("googleSignInBtn"),
+            { theme: "outline", size: "large", width: "320", shape: "pill" }
+        );
+    }
+
+    async handleGoogleLogin(response) {
+        try {
+            const res = await fetch(`${this.apiBaseUrl}/google-login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ credential: response.credential })
+            });
+
+            const result = await res.json();
+            if (!res.ok) throw new Error(result.message || 'Google login failed');
+
+            this.token = result.token;
+            this.currentUser = { id: result.user_id, name: result.name, profile_picture: result.profile_picture };
+            localStorage.setItem('token', this.token);
+            localStorage.setItem('user', JSON.stringify(this.currentUser));
+            
+            this.showNotification(`Welcome back, ${result.name}!`, 'success');
+            this.showApp();
+        } catch (err) {
+            this.showNotification(err.message, 'error');
         }
     }
 
     // --- AUTH EFFECTS ---
 
     initAuthEffects() {
-        // Typewriter for title
-        this.typewriterEffect('authTitle', 'TITANIUM_CORE_READY');
-
-        // Live clock
-        const clockEl = document.getElementById('authClock');
-        if (clockEl) {
-            const updateClock = () => {
-                const now = new Date();
-                clockEl.textContent = now.toLocaleTimeString('en-US', { hour12: false });
-            };
-            updateClock();
-            setInterval(updateClock, 1000);
-        }
-
-        // Particle canvas
-        this.initParticles();
+        // Futuristic effects disabled for clean theme
     }
 
     typewriterEffect(elementId, text) {
