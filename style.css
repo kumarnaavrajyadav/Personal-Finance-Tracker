@@ -258,16 +258,11 @@ h4,
     margin-bottom: 30px;
 }
 
-.hex-icon {
-    width: 48px;
-    height: 48px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    font-size: 1.1rem;
+.auth-logo-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.3));
 }
 
 .hex-ring {
@@ -673,17 +668,13 @@ h4,
     padding-left: 10px;
 }
 
-.logo-icon {
-    width: 45px;
-    height: 45px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--bg-dark);
-    font-size: 1.5rem;
-    box-shadow: var(--shadow-glow);
+.sidebar-logo-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 5px;
 }
 
 .logo span {
