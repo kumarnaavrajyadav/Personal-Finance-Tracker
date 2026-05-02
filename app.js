@@ -63,8 +63,8 @@ class FinanceFlow {
     init() {
         this.attachEventListeners();
         this.checkAuth();
-        this.initAuthEffects();
         this.updateAppDate();
+        this.typewriterEffect('authTitle', 'TITANIUM_CORE_V2.0_READY');
         
         document.querySelectorAll('.open-transaction-modal').forEach(btn => {
             btn.addEventListener('click', () => this.toggleModal('transactionModal', true));
@@ -270,11 +270,11 @@ class FinanceFlow {
         const subtitle = document.getElementById('authSubtitle');
         
         if (mode === 'signup') {
-            this.typewriterEffect('authTitle', 'ESTABLISH NEW IDENTITY');
-            subtitle.innerHTML = '<span class="bracket">[</span> Identity Registration Protocol <span class="bracket">]</span>';
+            this.typewriterEffect('authTitle', 'ESTABLISH ELITE IDENTITY');
+            subtitle.innerHTML = '<span class="bracket">[</span> Premium Asset Registration <span class="bracket">]</span>';
         } else {
-            this.typewriterEffect('authTitle', 'WELCOME BACK, AGENT');
-            subtitle.innerHTML = '<span class="bracket">[</span> Secure Authentication Protocol <span class="bracket">]</span>';
+            this.typewriterEffect('authTitle', 'VERIFY ACCESS KEY');
+            subtitle.innerHTML = '<span class="bracket">[</span> Secure Asset Management Gateway <span class="bracket">]</span>';
         }
     }
 
@@ -282,7 +282,7 @@ class FinanceFlow {
 
     initAuthEffects() {
         // Typewriter for title
-        this.typewriterEffect('authTitle', 'WELCOME BACK, AGENT');
+        this.typewriterEffect('authTitle', 'TITANIUM_CORE_READY');
 
         // Live clock
         const clockEl = document.getElementById('authClock');
@@ -814,16 +814,37 @@ class FinanceFlow {
         if (!trendsCtx) return;
         if (this.charts.trends) this.charts.trends.destroy();
         if (this.charts.category) this.charts.category.destroy();
+        
         this.charts.trends = new Chart(trendsCtx, {
-            type: 'line', data: { labels: ['M','T','W','T','F','S','S'], datasets: [{ data: [120, 190, 300, 500, 200, 300, 450], borderColor: '#6366f1', tension: 0.4 }] },
+            type: 'line', 
+            data: { 
+                labels: ['M','T','W','T','F','S','S'], 
+                datasets: [{ 
+                    label: 'Trend',
+                    data: [120, 190, 300, 500, 200, 300, 450], 
+                    borderColor: '#f59e0b', 
+                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                    fill: true,
+                    tension: 0.4 
+                }] 
+            },
             options: { responsive: true, maintainAspectRatio: false }
         });
+
         const catData = {};
         if (Array.isArray(this.transactions)) {
             this.transactions.filter(t => t.type === 'expense').forEach(t => { catData[t.category] = (catData[t.category] || 0) + parseFloat(t.amount); });
         }
+        
         this.charts.category = new Chart(catCtx, {
-            type: 'doughnut', data: { labels: Object.keys(catData), datasets: [{ data: Object.values(catData), backgroundColor: ['#6366f1', '#a855f7', '#f472b6', '#10b981', '#f59e0b'] }] },
+            type: 'doughnut', 
+            data: { 
+                labels: Object.keys(catData), 
+                datasets: [{ 
+                    data: Object.values(catData), 
+                    backgroundColor: ['#f59e0b', '#fbbf24', '#facc15', '#ffffff', '#94a3b8'] 
+                }] 
+            },
             options: { responsive: true, maintainAspectRatio: false, cutout: '70%'}
         });
     }
