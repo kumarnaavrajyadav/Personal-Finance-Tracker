@@ -32,7 +32,7 @@
     <div id="authOverlay" class="auth-overlay">
         <!-- Particle Canvas Background -->
         <canvas id="particleCanvas"></canvas>
-        
+
         <!-- Floating Currency Symbols -->
         <div class="floating-symbols">
             <span class="float-sym" style="--d:12s; --x:10%; --s:1.5">$</span>
@@ -93,7 +93,8 @@
                                 <label>EMAIL_ADDR</label>
                             </div>
                             <div class="cyber-input-wrapper">
-                                <input type="email" id="loginEmail" placeholder="user@domain.com" required autocomplete="email">
+                                <input type="email" id="loginEmail" placeholder="user@domain.com" required
+                                    autocomplete="email">
                                 <div class="input-glow"></div>
                             </div>
                         </div>
@@ -104,7 +105,8 @@
                                 <label>PASS_KEY</label>
                             </div>
                             <div class="cyber-input-wrapper">
-                                <input type="password" id="loginPassword" placeholder="••••••••••" required autocomplete="current-password">
+                                <input type="password" id="loginPassword" placeholder="••••••••••" required
+                                    autocomplete="current-password">
                                 <div class="input-glow"></div>
                             </div>
                         </div>
@@ -142,7 +144,8 @@
                         </div>
 
                         <p class="auth-footer">
-                            <span class="terminal-prompt">></span> NEW_USER? <a href="#" id="toSignup">CREATE_IDENTITY</a>
+                            <span class="terminal-prompt">></span> NEW_USER? <a href="#"
+                                id="toSignup">CREATE_IDENTITY</a>
                         </p>
                     </form>
 
@@ -188,7 +191,8 @@
                         </button>
 
                         <p class="auth-footer">
-                            <span class="terminal-prompt">></span> EXISTING_USER? <a href="#" id="toLogin">VERIFY_IDENTITY</a>
+                            <span class="terminal-prompt">></span> EXISTING_USER? <a href="#"
+                                id="toLogin">VERIFY_IDENTITY</a>
                         </p>
                     </form>
                 </div>
@@ -209,7 +213,7 @@
         <aside class="sidebar">
             <div class="logo">
                 <div class="logo-icon"><i class="fas fa-wallet"></i></div>
-                <span>NavrajCashFlow</span>
+                <span>CashFlow</span>
             </div>
             <nav id="mainNav">
                 <a href="#" class="nav-item active" data-view="dashboard">
@@ -281,7 +285,7 @@
                         <div class="stat-icon"><i class="fas fa-arrow-trend-down"></i></div>
                     </div>
                 </div>
-                
+
                 <!-- AI Smart Insights Section -->
                 <div class="ai-insights-container">
                     <div class="glass-card ai-card">
@@ -532,7 +536,8 @@
                         <h3>Identity Master</h3>
                         <div class="profile-chamber">
                             <div class="avatar-orbit">
-                                <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" alt="User" class="avatar-large" id="settingsAvatar">
+                                <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" alt="User"
+                                    class="avatar-large" id="settingsAvatar">
                                 <div class="orbit-ring"></div>
                             </div>
                             <div class="profile-details">
@@ -664,9 +669,11 @@
     <!-- Custom Confirmation Modal -->
     <div id="confirmModal" class="modal-overlay hidden" style="z-index: 2000;">
         <div class="modal-content glass-card confirm-box" style="max-width:350px; text-align:center;">
-            <div class="confirm-icon" style="font-size: 3rem; color: var(--danger); margin-bottom: 20px;"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="confirm-icon" style="font-size: 3rem; color: var(--danger); margin-bottom: 20px;"><i
+                    class="fas fa-exclamation-triangle"></i></div>
             <h3 id="confirmTitle" style="margin-bottom:10px;">Confirm Delete</h3>
-            <p id="confirmMessage" style="margin-bottom:25px; color:var(--text-dim); font-size:0.9rem;">Are you sure you want to delete this record? This action cannot be undone.</p>
+            <p id="confirmMessage" style="margin-bottom:25px; color:var(--text-dim); font-size:0.9rem;">Are you sure you
+                want to delete this record? This action cannot be undone.</p>
             <div class="modal-actions" style="display:flex; gap:10px; justify-content:center;">
                 <button id="cancelConfirm" class="btn btn-secondary btn-full">Cancel</button>
                 <button id="submitConfirm" class="btn btn-danger btn-full">Yes, Delete</button>
