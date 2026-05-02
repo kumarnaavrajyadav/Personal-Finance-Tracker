@@ -226,6 +226,17 @@ class FinanceFlow {
     toggleAuthMode(mode) {
         this.dom.loginForm.classList.toggle('hidden', mode === 'signup');
         this.dom.signupForm.classList.toggle('hidden', mode === 'login');
+        
+        const title = document.getElementById('authTitle');
+        const subtitle = document.getElementById('authSubtitle');
+        
+        if (mode === 'signup') {
+            title.textContent = 'Create Identity';
+            subtitle.textContent = 'Establish your financial core';
+        } else {
+            title.textContent = 'Welcome Back';
+            subtitle.textContent = 'Access your financial dashboard';
+        }
     }
 
     // --- DATA FETCHING ---

@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-const SECRET = "secretkey"; 
+const SECRET = process.env.JWT_SECRET || "secretkey"; 
 
 // Multer Storage Config
 const storage = multer.diskStorage({
@@ -278,7 +278,7 @@ app.post("/settings", auth, (req, res) => {
 // =========================
 // 🚀 START SERVER
 // =========================
-const PORT = 5001; // Standardized on 5001 for Mac compatibility
+const PORT = process.env.PORT || 5001; 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
