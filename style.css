@@ -878,6 +878,45 @@ tr:hover td {
     flex-grow: 1;
 }
 
+.export-filters {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.export-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.export-group label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+}
+
+.export-group input {
+    width: 100%;
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-weight: 600;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.export-group input:focus {
+    border-color: var(--primary);
+    background: rgba(0, 0, 0, 0.6);
+}
+
 /* Cash Flow "Table Format" Layout */
 .cash-flow-summary {
     display: flex;

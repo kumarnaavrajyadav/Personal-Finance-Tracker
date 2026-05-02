@@ -44,9 +44,9 @@ class FinanceFlow {
             totalInflow: document.getElementById('totalInflow'),
             totalOutflow: document.getElementById('totalOutflow'),
             netCashFlow: document.getElementById('netCashFlow'),
-            downloadPdfBtn: document.getElementById('downloadPdfBtn'),
-            reportMonth: document.getElementById('reportMonth'),
-            reportYear: document.getElementById('reportYear'),
+            downloadExcelBtn: document.getElementById('downloadExcelBtn'),
+            exportStartDate: document.getElementById('exportStartDate'),
+            exportEndDate: document.getElementById('exportEndDate'),
             confirmModal: document.getElementById('confirmModal'),
             cancelConfirm: document.getElementById('cancelConfirm'),
             submitConfirm: document.getElementById('submitConfirm'),
@@ -85,7 +85,7 @@ class FinanceFlow {
         if (this.dom.transactionForm) this.dom.transactionForm.onsubmit = (e) => this.handleSubmitTransaction(e);
         if (this.dom.budgetForm) this.dom.budgetForm.onsubmit = (e) => this.handleUpdateBudget(e);
         if (this.dom.profileUpload) this.dom.profileUpload.onchange = (e) => this.handleProfileUpload(e);
-        if (this.dom.downloadPdfBtn) this.dom.downloadPdfBtn.onclick = () => this.generatePDF();
+        if (this.dom.downloadExcelBtn) this.dom.downloadExcelBtn.onclick = () => this.generateCSV();
 
         // Transaction filters
         if (this.dom.filterBtns) {
@@ -833,72 +833,61 @@ class FinanceFlow {
         `).join('');
     }
 
-    // --- PDF REPORT GENERATION ---
+    // --- EXCEL/CSV REPORT GENERATION ---
 
-    generatePDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+    generateCSV() {
+        const startDate = this.dom.exportStartDate.value;
+        const endDate = this.dom.exportEndDate.value;
         
-        const month = this.dom.reportMonth.value;
-        const year = this.dom.reportYear.value;
-        const monthName = this.dom.reportMonth.options[this.dom.reportMonth.selectedIndex].text;
-
-        doc.setFontSize(22);
-        doc.setTextColor(99, 102, 241);
-        doc.text('FinanceFlow Monthly Statement', 14, 22);
+        let filtered = Array.isArray(this.transactions) ? [...this.transactions] : [];
         
-        doc.setFontSize(12);
-        doc.setTextColor(100);
-        doc.text(`Period: ${monthName} ${year}`, 14, 30);
-        doc.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 37);
-
-        const filtered = this.transactions.filter(t => {
-            const d = new Date(t.date);
-            return (d.getMonth() + 1) == month && d.getFullYear() == year;
-        });
-
+        if (startDate) {
+            const start = new Date(startDate);
+            filtered = filtered.filter(t => new Date(t.date) >= start);
+        }
+        if (endDate) {
+            const end = new Date(endDate);
+            // Include entire end date by setting time to end of day
+            end.setHours(23, 59, 59, 999);
+            filtered = filtered.filter(t => new Date(t.date) <= end);
+        }
+        
         if (filtered.length === 0) {
-            this.showNotification('No transaction data for this period.', 'error');
+            this.showNotification('No transactions found for this date range.', 'warning');
             return;
         }
 
-        const totalIncome = filtered.filter(t => t.type === 'income').reduce((a, b) => a + parseFloat(b.amount), 0);
-        const totalExpense = filtered.filter(t => t.type === 'expense').reduce((a, b) => a + parseFloat(b.amount), 0);
-
-        doc.setFontSize(14);
-        doc.setTextColor(0);
-        doc.text('Performance Summary', 14, 50);
+        // CSV Header
+        const headers = ['Date', 'Category', 'Description', 'Type', 'Amount'];
         
-        doc.autoTable({
-            startY: 55,
-            head: [['Description', 'Amount']],
-            body: [
-                ['Total Inflow', `+$${totalIncome.toLocaleString()}`],
-                ['Total Outflow', `-$${totalExpense.toLocaleString()}`],
-                ['Net Position', `$${(totalIncome - totalExpense).toLocaleString()}`]
-            ],
-            theme: 'striped',
-            headStyles: { fillColor: [99, 102, 241] }
-        });
-
-        doc.text('Transaction Log', 14, doc.lastAutoTable.finalY + 15);
+        // CSV Rows
+        const rows = filtered.map(t => [
+            new Date(t.date).toISOString().split('T')[0],
+            `"${t.category}"`,
+            `"${t.description.replace(/"/g, '""')}"`, // Escape quotes
+            t.type.toUpperCase(),
+            t.amount
+        ]);
         
-        doc.autoTable({
-            startY: doc.lastAutoTable.finalY + 20,
-            head: [['Date', 'Category', 'Description', 'Type', 'Amount']],
-            body: filtered.map(t => [
-                new Date(t.date).toLocaleDateString(),
-                t.category,
-                t.description,
-                t.type.toUpperCase(),
-                `$${parseFloat(t.amount).toLocaleString()}`
-            ]),
-            theme: 'grid',
-            headStyles: { fillColor: [15, 17, 42] }
-        });
-
-        doc.save(`FinanceFlow_Statement_${monthName}_${year}.pdf`);
-        this.showNotification('Statement generated successfully.', 'success');
+        // Combine
+        const csvContent = [
+            headers.join(','),
+            ...rows.map(r => r.join(','))
+        ].join('\n');
+        
+        // Create Blob and Download Link
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `FinanceFlow_Statement_${new Date().toISOString().split('T')[0]}.csv`);
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        this.showNotification('Excel statement downloaded successfully.', 'success');
     }
 
     // --- SETTINGS LOGIC ---

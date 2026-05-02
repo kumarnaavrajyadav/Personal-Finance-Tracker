@@ -384,10 +384,22 @@
 
                 <div class="reports-grid">
                     <div class="report-card glass-card">
-                        <div class="report-icon"><i class="fas fa-file-pdf"></i></div>
-                        <h3>Monthly Statement</h3>
-                        <p>Comprehensive PDF report of all transactions this month.</p>
-                        <button id="downloadPdfBtn" class="btn-secondary">Download PDF</button>
+                        <div class="report-icon"><i class="fas fa-file-excel"></i></div>
+                        <h3>Statement Export</h3>
+                        <p>Export your transactions to Excel (CSV) based on a custom date range.</p>
+                        
+                        <div class="export-filters">
+                            <div class="export-group">
+                                <label>Start Date</label>
+                                <input type="date" id="exportStartDate">
+                            </div>
+                            <div class="export-group">
+                                <label>End Date</label>
+                                <input type="date" id="exportEndDate">
+                            </div>
+                        </div>
+
+                        <button id="downloadExcelBtn" class="btn-secondary"><i class="fas fa-download"></i> Download CSV</button>
                     </div>
                     <div class="report-card glass-card">
                         <div class="report-icon"><i class="fas fa-chart-line"></i></div>
