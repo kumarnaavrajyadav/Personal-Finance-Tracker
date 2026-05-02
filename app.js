@@ -432,18 +432,25 @@ class FinanceFlow {
             date: document.getElementById('date').value
         };
 
+        console.info(`[Submit Transaction] Method: ${method}, URL: ${url}`, data);
+
         try {
             const res = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` },
                 body: JSON.stringify(data)
             });
-            if (!res.ok) throw new Error('Action failed');
+            
+            const result = await res.json();
+            if (!res.ok) throw new Error(result.error || result.message || 'Action failed');
             
             this.showNotification(id ? 'Transaction updated!' : 'Transaction added!', 'success');
             this.toggleModal('transactionModal', false);
             this.refreshData();
-        } catch (err) { this.showNotification(err.message, 'error'); }
+        } catch (err) { 
+            console.error('[Transaction Error]', err);
+            this.showNotification(err.message, 'error'); 
+        }
     }
 
     async handleDeleteTransaction(id) {
@@ -738,6 +745,11 @@ class FinanceFlow {
         const modal = document.getElementById(id);
         if (!modal) return;
         modal.classList.toggle('hidden', !show);
+        if (show && id === 'transactionModal' && !this.dom.editTaskId.value) {
+            // Default to today's date for new transactions
+            const dateInput = document.getElementById('date');
+            if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+        }
         if (!show) { 
             this.dom.transactionForm.reset(); 
             this.dom.editTaskId.value = ''; 

@@ -203,6 +203,10 @@ app.post("/upload-profile", auth, upload.single("image"), (req, res) => {
 app.post("/transaction", auth, (req, res) => {
   const { description, amount, type, category, date } = req.body;
 
+  if (isNaN(parseFloat(amount))) {
+    return res.status(400).json({ message: "Invalid amount value" });
+  }
+
   const sql = `
     INSERT INTO transactions 
     (user_id, description, amount, type, category, date)
