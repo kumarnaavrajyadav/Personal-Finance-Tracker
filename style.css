@@ -654,6 +654,98 @@ tr:hover td {
     color: var(--text-main);
 }
 
+/* =============================================
+   5. BUDGET MANAGEMENT & OTHER VIEWS
+   ============================================= */
+
+.budget-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.budget-form-card {
+    padding: 24px 32px;
+}
+
+.budget-form-card h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-header);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+}
+
+#budgetForm {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+#budgetForm .form-group {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+#budgetForm .form-group label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+#budgetForm .form-group input,
+#budgetForm .form-group select {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    font-weight: 600;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+#budgetForm .form-group input:focus,
+#budgetForm .form-group select:focus {
+    border-color: var(--primary);
+    background: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+#budgetForm .btn-primary {
+    height: 48px;
+    padding: 0 32px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.budget-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+/* Fix view sections to not overlap if they are transitioning */
+.view-section {
+    width: 100%;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .sidebar {
