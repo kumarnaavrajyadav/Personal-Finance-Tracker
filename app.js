@@ -64,7 +64,7 @@ class FinanceFlow {
         this.attachEventListeners();
         this.checkAuth();
         this.updateAppDate();
-        this.typewriterEffect('authTitle', 'TITANIUM_CORE_V2.0_READY');
+        this.typewriterEffect('authTitle', 'TITANIUM ELITE ACCESS');
         
         document.querySelectorAll('.open-transaction-modal').forEach(btn => {
             btn.addEventListener('click', () => this.toggleModal('transactionModal', true));

@@ -268,14 +268,15 @@ h4,
 }
 
 .auth-logo-img {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     object-fit: cover;
     border-radius: 50%;
     border: 3px solid var(--primary);
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+    box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
     background: #fff;
-    padding: 5px;
+    padding: 8px;
+    margin-bottom: 20px;
 }
 
 .hex-ring {
@@ -1866,18 +1867,23 @@ input:checked+.switch-slider:before {
         padding: 20px;
     }
 
-    .cyber-logo.centered {
+.cyber-logo.centered {
+    display: flex;
     flex-direction: column;
+    align-items: center;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
+    gap: 15px;
 }
 
 .google-login-btn {
     width: 100%;
-    padding: 14px;
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 12px 24px;
     background: #ffffff;
     border: 1px solid #dadce0;
-    border-radius: var(--radius-md);
+    border-radius: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1885,13 +1891,14 @@ input:checked+.switch-slider:before {
     cursor: pointer;
     transition: var(--transition-base);
     color: #3c4043;
-    font-weight: 600;
-    font-size: 0.95rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
 }
 
 .google-login-btn img {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 }
 
 .google-login-btn:hover {
@@ -1901,5 +1908,11 @@ input:checked+.switch-slider:before {
 }
 
 .social-grid.single-col {
-    grid-template-columns: 1fr;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.cyber-logo.centered .logo-text {
+    display: none;
 }
