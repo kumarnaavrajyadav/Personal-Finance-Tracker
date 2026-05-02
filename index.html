@@ -482,6 +482,16 @@
                                     <span class="slider"></span>
                                 </label>
                             </div>
+                            <div class="control-item">
+                                <div class="control-meta">
+                                    <label>Google Client ID</label>
+                                    <p>Setup Google Login integration.</p>
+                                </div>
+                                <div style="display:flex; gap:8px;">
+                                    <input type="text" id="googleClientIdInput" placeholder="Enter ID..." style="background:rgba(0,0,0,0.2); border:1px solid var(--glass-border); border-radius:4px; color:white; padding:4px 8px; font-size:0.8rem; width:150px;">
+                                    <button onclick="const id=document.getElementById('googleClientIdInput').value; if(id){localStorage.setItem('google_client_id',id); location.reload();}" style="background:var(--primary); border:none; color:white; border-radius:4px; padding:4px 12px; font-size:0.8rem; cursor:pointer;">Set</button>
+                                </div>
+                            </div>
                         </div>
                         <button class="logout-btn-large" id="finalLogoutBtn">Log Out Securely</button>
                     </div>

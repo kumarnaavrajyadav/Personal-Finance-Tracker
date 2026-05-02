@@ -269,16 +269,27 @@ class FinanceFlow {
 
     async updateAvatars(path) {
         const fallback = `https://ui-avatars.com/api/?name=${this.currentUser?.username || 'User'}&background=6366f1&color=fff`;
-        let url = path ? (path.startsWith('http') ? path : `${this.apiBaseUrl}${path}`) : fallback;
+        
+        // If no path, go straight to fallback
+        if (!path) {
+            if (this.dom.userAvatar) this.dom.userAvatar.src = fallback;
+            if (this.dom.settingsAvatar) this.dom.settingsAvatar.src = fallback;
+            return;
+        }
 
-        const setImg = (el) => {
-            if (!el) return;
-            el.src = url;
-            el.onerror = () => { el.src = fallback; el.onerror = null; };
+        const url = path.startsWith('http') ? path : `${this.apiBaseUrl}${path}`;
+        
+        // Silent pre-check using a dummy Image object to avoid 404 console logs
+        const img = new Image();
+        img.onload = () => {
+            if (this.dom.userAvatar) this.dom.userAvatar.src = url;
+            if (this.dom.settingsAvatar) this.dom.settingsAvatar.src = url;
         };
-
-        setImg(this.dom.userAvatar);
-        setImg(this.dom.settingsAvatar);
+        img.onerror = () => {
+            if (this.dom.userAvatar) this.dom.userAvatar.src = fallback;
+            if (this.dom.settingsAvatar) this.dom.settingsAvatar.src = fallback;
+        };
+        img.src = url;
     }
 
     toggleAuthMode(mode) {
@@ -300,12 +311,16 @@ class FinanceFlow {
     // --- GOOGLE AUTH ---
 
     initGoogleAuth() {
-        const clientID = "YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com"; // UPDATE THIS ID
+        // Try to get ID from localStorage first (User-provided)
+        const userClientID = localStorage.getItem('google_client_id');
+        const defaultID = "YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com";
+        const clientID = userClientID || defaultID;
         
         if (clientID.includes("YOUR_GOOGLE_CLIENT_ID_HERE")) {
-            console.warn("Google Client ID is missing. Google Login will be disabled.");
+            // Only warn if they haven't set it yet
+            console.log("%c[Auth] Google Login is pending configuration in Settings.", "color: #94a3b8; font-style: italic;");
             const btn = document.getElementById("googleSignInBtn");
-            if (btn) btn.innerHTML = '<p style="font-size:0.8rem; color:var(--text-dim);">Google Login Setup Required</p>';
+            if (btn) btn.innerHTML = '<p style="font-size:0.8rem; color:var(--text-dim); border:1px dashed var(--glass-border); padding:10px; border-radius:12px;">Setup Google Auth in Settings to enable</p>';
             return;
         }
 
@@ -314,15 +329,19 @@ class FinanceFlow {
             return;
         }
 
-        google.accounts.id.initialize({
-            client_id: clientID,
-            callback: (response) => this.handleGoogleLogin(response)
-        });
+        try {
+            google.accounts.id.initialize({
+                client_id: clientID,
+                callback: (response) => this.handleGoogleLogin(response)
+            });
 
-        google.accounts.id.renderButton(
-            document.getElementById("googleSignInBtn"),
-            { theme: "outline", size: "large", width: "320", shape: "pill" }
-        );
+            google.accounts.id.renderButton(
+                document.getElementById("googleSignInBtn"),
+                { theme: "outline", size: "large", width: "320", shape: "pill" }
+            );
+        } catch (e) {
+            console.warn("Invalid Google Client ID provided.");
+        }
     }
 
     async handleGoogleLogin(response) {
