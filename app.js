@@ -87,6 +87,10 @@ class FinanceFlow {
         if (this.dom.profileUpload) this.dom.profileUpload.onchange = (e) => this.handleProfileUpload(e);
         if (this.dom.downloadExcelBtn) this.dom.downloadExcelBtn.onclick = () => this.generateCSV();
 
+        // Reports View Listeners
+        if (this.dom.exportStartDate) this.dom.exportStartDate.onchange = () => this.updateReportsView();
+        if (this.dom.exportEndDate) this.dom.exportEndDate.onchange = () => this.updateReportsView();
+
         // Transaction filters
         if (this.dom.filterBtns) {
             this.dom.filterBtns.forEach(btn => {
@@ -903,6 +907,59 @@ class FinanceFlow {
         this.showNotification('Excel statement downloaded successfully.', 'success');
     }
 
+    updateReportsView() {
+        const startDate = this.dom.exportStartDate?.value;
+        const endDate = this.dom.exportEndDate?.value;
+        
+        let filtered = Array.isArray(this.transactions) ? [...this.transactions] : [];
+        
+        if (startDate) {
+            const start = new Date(startDate);
+            filtered = filtered.filter(t => new Date(t.date) >= start);
+        }
+        if (endDate) {
+            const end = new Date(endDate);
+            end.setHours(23, 59, 59, 999);
+            filtered = filtered.filter(t => new Date(t.date) <= end);
+        }
+        
+        // Sort by date descending
+        filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        // Calculate Totals
+        const inflow = filtered.filter(t => t.type === 'income').reduce((a, b) => a + parseFloat(b.amount), 0);
+        const outflow = filtered.filter(t => t.type === 'expense').reduce((a, b) => a + parseFloat(b.amount), 0);
+        const net = inflow - outflow;
+        
+        // Update Summary Pills
+        const inEl = document.getElementById('reportTotalIn');
+        const outEl = document.getElementById('reportTotalOut');
+        const netEl = document.getElementById('reportTotalNet');
+
+        if (inEl) inEl.textContent = `$${inflow.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+        if (outEl) outEl.textContent = `$${outflow.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+        if (netEl) netEl.textContent = `$${net.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+        
+        // Update Table
+        const tbody = document.getElementById('reportsTableBody');
+        if (!tbody) return;
+        
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px; color: var(--text-muted);">No transactions found for this period.</td></tr>';
+            return;
+        }
+        
+        tbody.innerHTML = filtered.map(t => `
+            <tr>
+                <td>${new Date(t.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                <td>${t.description}</td>
+                <td><span class="type-badge" style="background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid var(--border);">${t.category}</span></td>
+                <td><span class="type-badge ${t.type}">${t.type}</span></td>
+                <td class="${t.type === 'income' ? 'text-success' : 'text-danger'}">${t.type === 'income' ? '+' : '-'}$${parseFloat(t.amount).toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+            </tr>
+        `).join('');
+    }
+
     // --- SETTINGS LOGIC ---
 
     async handleSaveSettings() {
@@ -947,6 +1004,11 @@ class FinanceFlow {
         if (targetView) targetView.classList.remove('hidden');
         this.dom.navItems.forEach(i => i.classList.toggle('active', i.dataset.view === viewId));
         this.currentView = viewId;
+
+        // Initialize view-specific data
+        if (viewId === 'reports') {
+            this.updateReportsView();
+        }
     }
 
     getCategoryIcon(cat) {

@@ -1288,6 +1288,104 @@ input:checked + .slider:before {
     font-size: 1.2rem;
 }
 
+/* =============================================
+   8. REPORTS VIEW ENHANCEMENTS
+   ============================================= */
+
+.reports-table-section {
+    margin-top: 32px;
+    padding: 32px;
+}
+
+.reports-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.reports-table-header h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-header);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.report-summary-pills {
+    display: flex;
+    gap: 16px;
+}
+
+.summary-pill {
+    padding: 12px 24px;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.summary-pill .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+}
+
+.summary-pill .value {
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.summary-pill.inflow .value { color: var(--success); }
+.summary-pill.outflow .value { color: var(--danger); }
+.summary-pill.net .value { color: #38bdf8; }
+
+.reports-table-wrapper {
+    overflow-x: auto;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+#reportsTransactionTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#reportsTransactionTable th {
+    position: sticky;
+    top: 0;
+    background: #0f172a; 
+    text-align: left;
+    padding: 16px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    border-bottom: 2px solid var(--border);
+    z-index: 10;
+}
+
+#reportsTransactionTable td {
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+#reportsTransactionTable tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .sidebar {
