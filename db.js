@@ -11,8 +11,5 @@ pool.query('SELECT 1')
   .then(() => console.log('✅ DB connected'))
   .catch(err => console.error('❌ DB error:', err.message));
 
-// Quick debug (important)
-console.log("DATABASE_URL:", process.env.DATABASE_URL);
-
 module.exports = pool;
 

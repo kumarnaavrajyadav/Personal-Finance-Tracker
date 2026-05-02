@@ -1,7 +1,7 @@
 {
   "name": "personal-finance-tracker",
   "version": "1.0.0",
-  "description": "Personal Finance Tracker with MySQL backend",
+  "description": "Personal Finance Tracker with PostgreSQL backend",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -16,7 +16,6 @@
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.7",
     "multer": "^2.1.1",
-    "mysql2": "^3.22.0",
     "pg": "^8.20.0"
   },
   "devDependencies": {
