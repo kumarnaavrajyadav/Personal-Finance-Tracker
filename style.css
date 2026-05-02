@@ -529,3 +529,141 @@ tr:hover td {
     .auth-card { padding: 50px 25px; }
     .auth-title-large { font-size: 2rem; }
 }
+/* =============================================
+   ENHANCED FORM STYLING (MODALS & SECTIONS)
+   ============================================= */
+
+.modal-content {
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid var(--primary);
+    box-shadow: 0 0 50px rgba(245, 158, 11, 0.2);
+    border-radius: 32px;
+}
+
+.modal-header h2 {
+    color: var(--primary);
+    font-size: 1.8rem;
+}
+
+.close-modal {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    transition: var(--transition-premium);
+}
+
+.close-modal:hover {
+    background: var(--danger);
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+/* Styled Inputs for All Forms */
+input, select, textarea {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 12px !important;
+    padding: 12px 15px !important;
+    color: #fff !important;
+    transition: var(--transition-premium) !important;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 0 15px var(--primary-glow) !important;
+}
+
+/* Styled Buttons */
+.btn-primary, .btn-full, #downloadPdfBtn, #saveSettingsBtn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
+    color: #000 !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    cursor: pointer !important;
+    transition: var(--transition-premium) !important;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px var(--primary-glow);
+}
+
+/* =============================================
+   UNIQUE SCROLLBARS
+   ============================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--primary), transparent);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* =============================================
+   ANIMATIONS & MICRO-INTERACTIONS
+   ============================================= */
+
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.pulse-primary {
+    animation: pulse-primary 2s infinite;
+}
+
+@keyframes pulse-primary {
+    0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(245, 158, 11, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
+/* Live Date & Time Display */
+.date-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(245, 158, 11, 0.1);
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.date-display i {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.live-time {
+    font-family: 'Courier New', monospace;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #fff;
+    text-shadow: 0 0 10px var(--primary-glow);
+}
+
+.live-date {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}

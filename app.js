@@ -451,13 +451,20 @@ class FinanceFlow {
     }
 
     updateAppDate() {
-        const now = new Date();
-        const dd = String(now.getDate()).padStart(2, '0');
-        const mm = String(now.getMonth() + 1).padStart(2, '0');
-        const yyyy = now.getFullYear();
-        if (this.dom.currentMonthYear) {
-            this.dom.currentMonthYear.textContent = `${dd}/${mm}/${yyyy}`;
-        }
+        const tick = () => {
+            const now = new Date();
+            const timeOpts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const dateOpts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            
+            const timeStr = now.toLocaleTimeString('en-US', timeOpts);
+            const dateStr = now.toLocaleDateString('en-US', dateOpts);
+            
+            if (this.dom.currentMonthYear) {
+                this.dom.currentMonthYear.innerHTML = `<span class="live-time">${timeStr}</span> <span class="live-date">${dateStr}</span>`;
+            }
+        };
+        tick();
+        setInterval(tick, 1000);
     }
 
     // --- DATA FETCHING ---
