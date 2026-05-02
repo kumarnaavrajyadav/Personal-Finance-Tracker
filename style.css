@@ -545,8 +545,8 @@ tr:hover td {
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(15, 23, 42, 0.4);
-    backdrop-filter: blur(4px);
+    background: rgba(2, 6, 23, 0.7);
+    backdrop-filter: blur(12px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -554,12 +554,104 @@ tr:hover td {
 }
 
 .modal-content {
-    background: white;
+    background: var(--bg-card);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--border);
     padding: 32px;
-    border-radius: 16px;
+    border-radius: 24px;
     width: 100%;
-    max-width: 480px;
-    box-shadow: var(--shadow-lg);
+    max-width: 500px;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+    color: var(--text-main);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-header);
+    letter-spacing: 0.02em;
+}
+
+.close-modal {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-modal:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* Modal Form Styles */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    font-weight: 600;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary);
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.form-group input::placeholder {
+    color: #475569;
+    font-weight: 500;
+}
+
+.form-group select option {
+    background: #0f172a;
+    color: var(--text-main);
 }
 
 /* Responsive */
