@@ -387,13 +387,16 @@ class FinanceFlow {
     }
 
     toggleGoogleSetup(show) {
+        const header = document.querySelector('.auth-header');
         if (show) {
             this.dom.loginForm.classList.add('hidden');
             this.dom.signupForm.classList.add('hidden');
             this.dom.googleSetupView.classList.remove('hidden');
+            if (header) header.classList.add('hidden');
         } else {
             this.dom.googleSetupView.classList.add('hidden');
             this.dom.loginForm.classList.remove('hidden');
+            if (header) header.classList.remove('hidden');
         }
     }
 
