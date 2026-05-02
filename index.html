@@ -48,7 +48,7 @@
                         </div>
                         <h2 id="authTitle" class="auth-title-large">Welcome Back</h2>
                         <p id="authSubtitle" class="auth-subtitle-clean">
-                            Manage your wealth with confidence
+                            Sign in to manage your money
                         </p>
                     </div>
 
@@ -189,42 +189,20 @@
                     </div>
                 </header>
 
-                <!-- Elite Data Summary (Table Form) -->
-                <div class="table-card glass-card summary-table-container">
-                    <div class="card-header">
-                        <h3><i class="fas fa-list-ul"></i> Executive Summary</h3>
-                        <div class="status-indicator live">Live Updates</div>
+                <!-- Simple Stat Cards -->
+                <div class="stats-grid">
+                    <div class="card stat-card balance">
+                        <p class="stat-label">Total Balance</p>
+                        <h2 id="totalBalance" class="stat-value">$0.00</h2>
                     </div>
-                    <table class="summary-table">
-                        <thead>
-                            <tr>
-                                <th>Category</th>
-                                <th>Metric</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><i class="fas fa-wallet text-primary"></i> Wallet</td>
-                                <td>Total Balance</td>
-                                <td id="totalBalance" class="font-bold">$0.00</td>
-                                <td><span class="trend-pill up"><i class="fas fa-caret-up"></i> Stable</span></td>
-                            </tr>
-                            <tr>
-                                <td><i class="fas fa-arrow-down text-success"></i> Inflow</td>
-                                <td>Monthly Income</td>
-                                <td id="totalIncome" class="text-success font-bold">$0.00</td>
-                                <td><span class="trend-pill neutral">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><i class="fas fa-arrow-up text-danger"></i> Outflow</td>
-                                <td>Monthly Expenses</td>
-                                <td id="totalExpense" class="text-danger font-bold">$0.00</td>
-                                <td><span class="trend-pill warning">Review Needed</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="card stat-card income">
+                        <p class="stat-label">Monthly Income</p>
+                        <h2 id="totalIncome" class="stat-value text-success">$0.00</h2>
+                    </div>
+                    <div class="card stat-card expense">
+                        <p class="stat-label">Monthly Expenses</p>
+                        <h2 id="totalExpense" class="stat-value text-danger">$0.00</h2>
+                    </div>
                 </div>
 
                 <!-- Charts Section -->
@@ -299,8 +277,8 @@
                                 <span class="pulse-ring"></span>
                             </div>
                             <div class="ai-meta">
-                                <h3>Titanium Financial Advisor</h3>
-                                <span class="ai-badge">V2.0 Gold Engine (Active)</span>
+                                <h3>Smart Savings Tips</h3>
+                                <span class="ai-badge">Personalized for you</span>
                             </div>
                         </div>
                         <div id="aiInsightsContent" class="ai-content">
