@@ -682,6 +682,7 @@ class FinanceFlow {
         this.renderDashboardTables();
         this.renderFullTransactionList();
         this.renderBudgetsView();
+        this.updateReportsView();
         this.generateAIInsights();
     }
 
@@ -956,6 +957,11 @@ class FinanceFlow {
                 <td><span class="type-badge" style="background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid var(--border);">${t.category}</span></td>
                 <td><span class="type-badge ${t.type}">${t.type}</span></td>
                 <td class="${t.type === 'income' ? 'text-success' : 'text-danger'}">${t.type === 'income' ? '+' : '-'}$${parseFloat(t.amount).toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                <td>
+                    <div class="action-btns">
+                        <button class="action-btn btn-delete" data-action="delete-transaction" data-id="${t.id}" title="Delete"><i class="fas fa-trash-can"></i></button>
+                    </div>
+                </td>
             </tr>
         `).join('');
     }

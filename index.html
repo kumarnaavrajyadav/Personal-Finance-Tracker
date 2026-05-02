@@ -14,7 +14,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap"
         rel="stylesheet">
-    
+
     <!-- Google Identity Services (OAuth 2.0) -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
@@ -59,7 +59,8 @@
                             <label>Email Address</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-envelope"></i>
-                                <input type="email" id="loginEmail" placeholder="name@example.com" required autocomplete="email">
+                                <input type="email" id="loginEmail" placeholder="name@example.com" required
+                                    autocomplete="email">
                             </div>
                         </div>
 
@@ -67,7 +68,8 @@
                             <label>Password</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-lock"></i>
-                                <input type="password" id="loginPassword" placeholder="Enter your password" required autocomplete="current-password">
+                                <input type="password" id="loginPassword" placeholder="Enter your password" required
+                                    autocomplete="current-password">
                             </div>
                         </div>
 
@@ -302,7 +304,8 @@
                             <i class="fas fa-search"></i>
                             <input type="text" id="transactionSearch" placeholder="Search transactions...">
                         </div>
-                        <button id="bulkDeleteBtn" class="btn-danger hidden" style="padding: 8px 16px; font-size: 0.8rem; display: flex; align-items: center; gap: 8px;">
+                        <button id="bulkDeleteBtn" class="btn-danger hidden"
+                            style="padding: 8px 16px; font-size: 0.8rem; display: flex; align-items: center; gap: 8px;">
                             <i class="fas fa-trash-alt"></i> Delete Selected
                         </button>
                         <button class="btn-primary open-transaction-modal">
@@ -349,6 +352,7 @@
                                 <label for="budgetCategory">Category</label>
                                 <select id="budgetCategory" required>
                                     <option value="Food">Food & Dining</option>
+                                    <option value="Salary">Salary</option>
                                     <option value="Shopping">Shopping</option>
                                     <option value="Transport">Transportation</option>
                                     <option value="Housing">Housing & Rent</option>
@@ -387,7 +391,7 @@
                         <div class="report-icon"><i class="fas fa-file-excel"></i></div>
                         <h3>Statement Export</h3>
                         <p>Export your transactions to Excel (CSV) based on a custom date range.</p>
-                        
+
                         <div class="export-filters">
                             <div class="export-group">
                                 <label>Start Date</label>
@@ -399,7 +403,8 @@
                             </div>
                         </div>
 
-                        <button id="downloadExcelBtn" class="btn-secondary"><i class="fas fa-download"></i> Download CSV</button>
+                        <button id="downloadExcelBtn" class="btn-secondary"><i class="fas fa-download"></i> Download
+                            CSV</button>
                     </div>
                     <div class="report-card glass-card">
                         <div class="report-icon"><i class="fas fa-chart-line"></i></div>
@@ -448,6 +453,7 @@
                                     <th>Category</th>
                                     <th>Type</th>
                                     <th>Amount</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="reportsTableBody">
@@ -472,7 +478,8 @@
                         <div class="settings-profile-header">
                             <div class="profile-avatar-container">
                                 <img src="https://ui-avatars.com/api/?name=User" alt="Avatar" id="settingsAvatar">
-                                <label for="profileUpload" class="avatar-edit-badge"><i class="fas fa-camera"></i></label>
+                                <label for="profileUpload" class="avatar-edit-badge"><i
+                                        class="fas fa-camera"></i></label>
                                 <input type="file" id="profileUpload" hidden accept="image/*">
                             </div>
                             <div class="profile-meta">
@@ -533,8 +540,11 @@
                                     <p>Setup Google Login integration.</p>
                                 </div>
                                 <div style="display:flex; gap:8px;">
-                                    <input type="text" id="googleClientIdInput" placeholder="Enter ID..." style="background:rgba(0,0,0,0.2); border:1px solid var(--glass-border); border-radius:4px; color:white; padding:4px 8px; font-size:0.8rem; width:150px;">
-                                    <button onclick="const id=document.getElementById('googleClientIdInput').value; if(id){localStorage.setItem('google_client_id',id); location.reload();}" style="background:var(--primary); border:none; color:white; border-radius:4px; padding:4px 12px; font-size:0.8rem; cursor:pointer;">Set</button>
+                                    <input type="text" id="googleClientIdInput" placeholder="Enter ID..."
+                                        style="background:rgba(0,0,0,0.2); border:1px solid var(--glass-border); border-radius:4px; color:white; padding:4px 8px; font-size:0.8rem; width:150px;">
+                                    <button
+                                        onclick="const id=document.getElementById('googleClientIdInput').value; if(id){localStorage.setItem('google_client_id',id); location.reload();}"
+                                        style="background:var(--primary); border:none; color:white; border-radius:4px; padding:4px 12px; font-size:0.8rem; cursor:pointer;">Set</button>
                                 </div>
                             </div>
                         </div>
@@ -581,6 +591,7 @@
                         <label for="category">Category</label>
                         <select id="category" required>
                             <option value="Food">Food & Dining</option>
+                            <option value="Salary">Salary</option>
                             <option value="Shopping">Shopping</option>
                             <option value="Transport">Transportation</option>
                             <option value="Housing">Housing & Rent</option>
