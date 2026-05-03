@@ -69,10 +69,16 @@ p {
     inset: 0;
     background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('assets/finance-bg.jpg') no-repeat center center;
     background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     z-index: 5000;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#particleCanvas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .auth-overlay::before {
@@ -87,21 +93,23 @@ p {
     position: relative;
     z-index: 10;
     width: 100%;
-    padding: 20px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    min-height: 100%;
 }
 
 .auth-card {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(30px);
     border: 1px solid rgba(255, 255, 255, 0.5);
-    width: 100%;
+    width: 95%;
     max-width: 1100px;
     display: flex;
     border-radius: 32px;
     overflow: hidden;
     box-shadow: 0 50px 100px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    margin: 40px auto;
 }
 
 .auth-illustration {
@@ -188,9 +196,9 @@ p {
     pointer-events: none;
 }
 
-.input-wrapper input {
+.auth-form .input-wrapper input {
     width: 100%;
-    padding: 16px 16px 16px 52px;
+    padding: 16px 16px 16px 52px !important;
     background: rgba(255, 255, 255, 0.95);
     border: 2px solid #e2e8f0;
     border-radius: 16px;
@@ -228,6 +236,9 @@ p {
     margin-bottom: 32px;
     font-size: 0.9rem;
     width: 100%;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 8px;
 }
 
 .remember-me {
@@ -238,6 +249,7 @@ p {
     color: #475569;
     font-weight: 600;
     margin: 0;
+    user-select: none;
 }
 
 .remember-me input {
@@ -246,6 +258,7 @@ p {
     accent-color: var(--primary);
     cursor: pointer;
     margin: 0;
+    flex-shrink: 0;
 }
 
 .forgot-link {
@@ -360,15 +373,53 @@ p {
     }
 
     .auth-illustration {
-        min-height: 200px;
+        min-height: 180px;
+    }
+    
+    .auth-card-wrapper {
+        padding: 10px;
     }
 
     .auth-illustration::after {
-        background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.85));
+        background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.95));
     }
 
     .auth-body {
-        padding: 40px 30px;
+        padding: 40px 20px;
+    }
+
+    .auth-title-large {
+        font-size: 1.75rem;
+    }
+    
+    .auth-card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-actions {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+    }
+    
+    .remember-me {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .auth-body {
+        padding: 30px 15px;
+    }
+    
+    .auth-title-large {
+        font-size: 1.5rem;
+    }
+
+    .auth-illustration {
+        display: none;
     }
 }
 
@@ -934,8 +985,9 @@ tr:hover td {
     letter-spacing: 0.05em;
 }
 
-.form-group input,
-.form-group select {
+.form-group > input,
+.form-group > select,
+.form-group > .input-wrapper input {
     width: 100%;
     padding: 14px 16px;
     background: rgba(0, 0, 0, 0.3);

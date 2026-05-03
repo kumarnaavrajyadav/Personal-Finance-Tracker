@@ -344,7 +344,12 @@ class FinanceFlow {
             client_id: userClientID,
             callback: (resp) => this.handleGoogleCredentialResponse(resp)
         });
-        google.accounts.id.renderButton(btnContainer, { theme: "outline", size: "large", width: 320 });
+        google.accounts.id.renderButton(btnContainer, { 
+            theme: "outline", 
+            size: "large", 
+            shape: "pill",
+            width: btnContainer.offsetWidth || 320 
+        });
     }
 
     async handleGoogleCredentialResponse(response) {
