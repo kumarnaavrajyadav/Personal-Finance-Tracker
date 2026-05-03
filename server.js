@@ -182,8 +182,15 @@ app.post("/login", async (req, res) => {
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(401).json({ message: "Invalid credentials" });
 
+    // Clear stale /uploads/ paths (old disk-based storage no longer exists)
+    let profilePicture = user.profile_picture;
+    if (profilePicture && profilePicture.startsWith('/uploads/')) {
+      await db.query("UPDATE users SET profile_picture = NULL WHERE id = $1", [user.id]);
+      profilePicture = null;
+    }
+
     const token = jwt.sign({ id: user.id }, SECRET, { expiresIn: "1d" });
-    res.json({ token, user_id: user.id, name: user.name, email: user.email, profile_picture: user.profile_picture });
+    res.json({ token, user_id: user.id, name: user.name, email: user.email, profile_picture: profilePicture });
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
@@ -208,12 +215,10 @@ app.post("/google-login", async (req, res) => {
       );
       user = userResult.rows[0];
     } else {
-      // Preserve custom profile picture if it's a custom upload (/uploads/) or Base64 data URL
-      const isCustomPicture = user.profile_picture && (
-        user.profile_picture.startsWith('/uploads/') || 
-        user.profile_picture.startsWith('data:')
-      );
-      const finalPicture = isCustomPicture ? user.profile_picture : profile_picture;
+      // Preserve custom profile picture if it's a custom upload or Base64 data URL
+      // But discard stale /uploads/ paths (disk files no longer exist after server restart)
+      const isValidCustomPicture = user.profile_picture && user.profile_picture.startsWith('data:');
+      const finalPicture = isValidCustomPicture ? user.profile_picture : profile_picture;
 
       await db.query(
         "UPDATE users SET name = $1, profile_picture = $2, google_id = $3 WHERE id = $4",

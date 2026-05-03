@@ -8,6 +8,13 @@ class FinanceFlow {
         this.apiBaseUrl = window.location.origin;
         this.currentUser = JSON.parse(localStorage.getItem('user')) || null;
         this.token = localStorage.getItem('token') || null;
+
+        // Clear stale /uploads/ profile pictures from previous sessions
+        // (disk-based uploads no longer persist on server restart)
+        if (this.currentUser?.profile_picture?.startsWith('/uploads/')) {
+            this.currentUser.profile_picture = null;
+            localStorage.setItem('user', JSON.stringify(this.currentUser));
+        }
         this.currentView = 'dashboard';
         this.activeCategory = 'All';
         this.transactions = [];
