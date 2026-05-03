@@ -227,7 +227,12 @@ class FinanceFlow {
 
             if (type === 'login') {
                 this.token = result.token;
-                this.currentUser = { id: result.user_id, username: result.name, email: data.email, profile_picture: result.profile_picture };
+                this.currentUser = { 
+                    id: result.user_id, 
+                    username: result.name, 
+                    email: data.email, 
+                    profile_picture: result.profile_picture 
+                };
                 localStorage.setItem('token', this.token);
                 localStorage.setItem('user', JSON.stringify(this.currentUser));
                 this.showApp();
@@ -286,7 +291,7 @@ class FinanceFlow {
     }
 
     async updateAvatars(path) {
-        const fallback = `https://ui-avatars.com/api/?name=${this.currentUser?.username || 'User'}&background=6366f1&color=fff`;
+        const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(this.currentUser?.username || 'User')}&background=6366f1&color=fff`;
         
         // If no path, go straight to fallback
         if (!path) {
@@ -295,7 +300,11 @@ class FinanceFlow {
             return;
         }
 
-        const url = path.startsWith('http') ? path : `${this.apiBaseUrl}${path}`;
+        // Base64 data URLs can be used directly; absolute http URLs too
+        // Only prepend apiBaseUrl for relative /uploads/ paths (legacy)
+        const url = (path.startsWith('data:') || path.startsWith('http')) 
+            ? path 
+            : `${this.apiBaseUrl}${path}`;
         
         // Silent pre-check using a dummy Image object to avoid 404 console logs
         const img = new Image();
@@ -364,7 +373,12 @@ class FinanceFlow {
             if (!res.ok) throw new Error(result.message || 'Google login failed');
 
             this.token = result.token;
-            this.currentUser = { id: result.user_id, name: result.name, profile_picture: result.profile_picture };
+            this.currentUser = { 
+                id: result.user_id, 
+                username: result.name, 
+                email: result.email,
+                profile_picture: result.profile_picture 
+            };
             localStorage.setItem('token', this.token);
             localStorage.setItem('user', JSON.stringify(this.currentUser));
             
@@ -1004,6 +1018,13 @@ class FinanceFlow {
     async handleProfileUpload(e) {
         const file = e.target.files[0];
         if (!file) return;
+
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            this.showNotification('Please select a valid image file.', 'error');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('image', file);
         try {
@@ -1013,11 +1034,18 @@ class FinanceFlow {
                 body: formData
             });
             const result = await res.json();
+
+            if (!res.ok) throw new Error(result.message || 'Upload failed');
+            if (!result.imageUrl) throw new Error('Server did not return an image URL');
+
+            // Update local state and localStorage
             this.currentUser.profile_picture = result.imageUrl;
             localStorage.setItem('user', JSON.stringify(this.currentUser));
             this.updateAvatars(result.imageUrl);
-            this.showNotification('Profile updated!', 'success');
-        } catch (err) { this.showNotification('Upload failed', 'error'); }
+            this.showNotification('Profile picture updated!', 'success');
+        } catch (err) { 
+            this.showNotification(err.message || 'Upload failed', 'error'); 
+        }
     }
 
     initCharts() {

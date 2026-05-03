@@ -112,15 +112,19 @@ app.get("/test", async (req, res) => {
 
 const SECRET = process.env.JWT_SECRET || "secretkey"; 
 
-// Multer Storage Config
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
-    cb(null, "profile-" + uniqueSuffix + path.extname(file.originalname));
+// Multer Memory Storage Config (store in DB as Base64 instead of disk)
+const storage = multer.memoryStorage();
+const upload = multer({ 
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed'), false);
+    }
   }
 });
-const upload = multer({ storage: storage });
 
 // =========================
 // 🔒 AUTH MIDDLEWARE
@@ -179,7 +183,7 @@ app.post("/login", async (req, res) => {
     if (!valid) return res.status(401).json({ message: "Invalid credentials" });
 
     const token = jwt.sign({ id: user.id }, SECRET, { expiresIn: "1d" });
-    res.json({ token, user_id: user.id, name: user.name, profile_picture: user.profile_picture });
+    res.json({ token, user_id: user.id, name: user.name, email: user.email, profile_picture: user.profile_picture });
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
@@ -204,17 +208,23 @@ app.post("/google-login", async (req, res) => {
       );
       user = userResult.rows[0];
     } else {
-      // Update profile picture and google_id if existing user logins with Google
+      // Preserve custom profile picture if it's a custom upload (/uploads/) or Base64 data URL
+      const isCustomPicture = user.profile_picture && (
+        user.profile_picture.startsWith('/uploads/') || 
+        user.profile_picture.startsWith('data:')
+      );
+      const finalPicture = isCustomPicture ? user.profile_picture : profile_picture;
+
       await db.query(
         "UPDATE users SET name = $1, profile_picture = $2, google_id = $3 WHERE id = $4",
-        [name, profile_picture, google_id, user.id]
+        [name, finalPicture, google_id, user.id]
       );
-      user.profile_picture = profile_picture;
+      user.profile_picture = finalPicture;
       user.name = name;
     }
 
     const token = jwt.sign({ id: user.id }, SECRET, { expiresIn: "1d" });
-    res.json({ token, user_id: user.id, name: user.name, profile_picture: user.profile_picture });
+    res.json({ token, user_id: user.id, name: user.name, email: user.email, profile_picture: user.profile_picture });
   } catch (err) {
     console.error("Google Auth Error:", err);
     res.status(400).json({ message: "Google Authentication failed" });
@@ -222,20 +232,22 @@ app.post("/google-login", async (req, res) => {
 });
 
 // =========================
-// 📸 UPLOAD PROFILE IMAGE
+// 📸 UPLOAD PROFILE IMAGE (Base64 in DB)
 // =========================
 app.post("/upload-profile", auth, upload.single("image"), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
 
-    const imageUrl = `/uploads/${req.file.filename}`;
-    const sql = "UPDATE users SET profile_picture = $1 WHERE id = $2";
+    // Convert buffer to Base64 data URL for persistent storage
+    const mimeType = req.file.mimetype;
+    const base64 = req.file.buffer.toString('base64');
+    const dataUrl = `data:${mimeType};base64,${base64}`;
 
-    await db.query(sql, [imageUrl, req.user_id]);
-    res.json({ message: "Profile picture updated", imageUrl });
+    await db.query("UPDATE users SET profile_picture = $1 WHERE id = $2", [dataUrl, req.user_id]);
+    res.json({ message: "Profile picture updated", imageUrl: dataUrl });
   } catch (err) {
     console.error("Upload Error:", err);
-    res.status(500).json({ message: "Internal server error during upload" });
+    res.status(500).json({ message: err.message || "Internal server error during upload" });
   }
 });
 
